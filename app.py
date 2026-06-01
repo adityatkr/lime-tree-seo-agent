@@ -419,6 +419,171 @@ Management, Lime Tree Hotels""",
 STAR_LABELS = {5:"⭐⭐⭐⭐⭐ Five Star", 4:"⭐⭐⭐⭐ Four Star", 3:"⭐⭐⭐ Three Star", 2:"⭐⭐ Two Star", 1:"⭐ One Star"}
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Review chatbot — analysis + reply engine
+# ─────────────────────────────────────────────────────────────────────────────
+_TOPICS = {
+    "kitchen":     (["kitchen","cook","cooking","food","meal","microwave","stove","induction","refrigerator","fridge","utensil","pantry","ingredients"],
+                    "Kitchen & Cooking Facilities"),
+    "cleanliness": (["clean","dirty","hygiene","dust","spotless","tidy","mess","stain","smell","filthy","unhygienic"],
+                    "Cleanliness & Housekeeping"),
+    "wifi":        (["wifi","wi-fi","internet","connection","network","bandwidth","slow internet","disconnected","connectivity"],
+                    "Wi-Fi & Internet"),
+    "staff":       (["staff","team","service","helpful","rude","friendly","reception","front desk","check-in","checkin","caretaker","behaviour","behavior","attitude","polite","unprofessional"],
+                    "Staff & Service"),
+    "location":    (["location","distance","near","close","far","hospital","metro","medanta","artemis","fortis","golf course","cyber city","iffco","huda","sector"],
+                    "Location & Proximity"),
+    "price":       (["price","value","expensive","cheap","costly","rate","worth","money","overpriced","affordable","charge","bill","invoice"],
+                    "Pricing & Value"),
+    "room":        (["room","apartment","space","spacious","small","bathroom","toilet","bed","mattress","pillow","comfortable","dark","bright","balcony","furniture"],
+                    "Room / Apartment"),
+    "laundry":     (["laundry","washing","machine","washer","clothes","linen","dryer"],
+                    "Laundry"),
+    "parking":     (["parking","car","park","vehicle","bike","two-wheeler"],
+                    "Parking"),
+    "ac":          (["ac","air conditioning","air-conditioning","temperature","hot","cold","cool","heating","aircon","hvac"],
+                    "Air Conditioning"),
+    "noise":       (["noise","quiet","loud","sound","noisy","disturb","disturbance","construction","traffic"],
+                    "Noise Level"),
+    "maintenance": (["maintenance","repair","broken","not working","didn't work","issue","problem","fault","leaking","leak","plumbing","electrical"],
+                    "Maintenance"),
+    "security":    (["security","safe","safety","lock","key","access","guard","cctv","unsafe"],
+                    "Security"),
+    "breakfast":   (["breakfast","food quality","meals","restaurant","snack","hungry","pantry service"],
+                    "Breakfast / Food"),
+    "checkin":     (["check-in","checkin","check out","checkout","delay","wait","waiting","late","early","arrival"],
+                    "Check-in / Check-out"),
+}
+
+_NEG_WORDS = ["bad","poor","terrible","awful","horrible","disappointing","dirty","broken","slow","rude",
+              "not working","issue","problem","worst","never again","waste","overpriced","leaking","noisy",
+              "unhappy","dissatisfied","below average","inadequate","unfortunately","sadly","regret",
+              "expected better","did not meet","failed","disgrace","unacceptable","pathetic","useless",
+              "horrible","mess","disaster","frustrated","upset","angry","annoyed","complaint","didn't work"]
+
+_POS_WORDS = ["great","good","excellent","amazing","wonderful","perfect","comfortable","clean","helpful",
+              "friendly","spacious","love","loved","enjoyed","fantastic","brilliant","highly recommend",
+              "will visit again","best","outstanding","superb","satisfied","impressed","happy","pleased",
+              "thank you","5 star","five star","beautiful","nice","pleasant","cozy","cosy","homely","value for money"]
+
+_POS_SEGMENT = {
+    "kitchen":     "I'm genuinely glad our fully equipped kitchen made such a difference. Home-cooked meals are something I personally believe every long-stay guest deserves, and it is gratifying to see that commitment recognised.",
+    "cleanliness": "Maintaining rigorous cleanliness standards is something I personally oversee across all our properties. Knowing it met your expectations is very encouraging for the entire team.",
+    "wifi":        "Reliable, fast Wi-Fi is non-negotiable — especially for business travelers and families coordinating medical care remotely. I am glad it held up throughout your visit.",
+    "staff":       "I will personally share your kind words with the team members who looked after you. They work exceptionally hard to ensure every guest feels genuinely cared for, not just checked in.",
+    "location":    "Our locations are chosen deliberately for their proximity to hospitals, business corridors, and metro connectivity, and it is rewarding to see that strategic choice serve a guest well.",
+    "price":       "I take our Best Price Guarantee very seriously — and I am glad you felt the value delivered on that promise. Direct bookings at limetreehotels.com always carry that commitment.",
+    "room":        "Providing apartments that feel like a real home — spacious, well-furnished, and genuinely comfortable — is a standard I set personally, and I am pleased it showed during your stay.",
+    "laundry":     "In-room laundry is one of those details that sounds modest until you are two or three weeks into a stay. I'm glad it made life easier.",
+    "parking":     "Complimentary parking is something we insist on for our guests. I am glad it was convenient.",
+    "ac":          "A perfectly temperature-controlled environment makes a huge difference, especially during Gurgaon's extreme seasons. I'm glad the AC performed well throughout.",
+    "noise":       "A peaceful, quiet environment is essential for proper rest — particularly for guests recovering from medical procedures. I'm pleased you found it so.",
+    "security":    "Security across all our properties is something I review personally and continuously. I'm glad you felt safe throughout your stay.",
+    "breakfast":   "I'm glad our breakfast and pantry service worked well for you. Ensuring good quality food options for long-stay guests is a priority I take seriously.",
+    "checkin":     "A smooth, welcoming check-in sets the tone for everything. I'm glad the process worked well and that the team was ready for you.",
+    "maintenance": "Well-maintained facilities are a baseline commitment I hold every property to. I'm pleased everything was in working order throughout your stay.",
+}
+
+_NEG_SEGMENT = {
+    "kitchen":     "The kitchen issue you have described has been addressed personally by me. I inspected the unit, confirmed the fault, and it has been resolved. Our kitchens are a flagship feature — this standard slipping is unacceptable and I have put a daily appliance check in place.",
+    "cleanliness": "The cleanliness concern you raised is unacceptable, and I want to be direct about that. I have personally reviewed the housekeeping log for your stay, spoken to the team responsible, and implemented an immediate improvement protocol. This is my responsibility and I have already acted on it.",
+    "wifi":        "A slow or unreliable internet connection is simply not acceptable — particularly for guests who depend on it for work or medical coordination. I have had the connectivity reviewed and upgraded for this unit immediately. This should not have been left unresolved during your stay.",
+    "staff":       "The service experience you described is below the standard I set and expect from my team. I have already spoken directly with the relevant staff members about this. Professional, warm, and responsive service is foundational to what we do — not optional.",
+    "location":    "I understand if the distance to your specific destination felt further than expected. For your next visit, I would encourage you to tell us your destination when booking so we can recommend the most convenient property from our portfolio in Gurgaon, Greater Noida, Delhi, or Noida.",
+    "price":       "I understand value is everything, and I want to address this directly. Our absolute best rates are always on direct booking at limetreehotels.com — never on OTA platforms, which add a 15–25% commission. For long stays especially, that difference is significant. I would personally arrange a better rate for your next visit.",
+    "room":        "The concern about the room or apartment has been flagged and I have personally reviewed it. The specific issue has been addressed. Our apartments are designed to provide genuine space and comfort — when that standard slips, I take it seriously and act on it immediately.",
+    "laundry":     "The laundry facility issue has been identified and repaired. I have also added a daily functionality check for all in-room appliances. This should have been caught before your check-in — I own that.",
+    "parking":     "I'm sorry for any parking inconvenience during your stay. I have reviewed the allocation process and made changes to ensure this does not recur.",
+    "ac":          "An air conditioning failure during your stay is deeply uncomfortable and I sincerely apologise. The unit has been fully serviced and I have confirmed it is operational. A pre-check protocol has been implemented to catch this before any future guest arrives.",
+    "noise":       "The noise disturbance you experienced is something I have taken up directly with building management. I have committed to specific remedial steps and will personally follow up on them. Our guests deserve restful, undisturbed accommodation.",
+    "maintenance": "The maintenance issue you described should never have been left unresolved during your stay. I reviewed the maintenance log personally, addressed the fault, and put in place a daily pre-check protocol so no guest faces this again.",
+    "security":    "I have reviewed the specific security concern you raised and have already taken corrective action at the property. Every guest deserves to feel completely safe — this is non-negotiable for me.",
+    "breakfast":   "The feedback on food quality has been noted and shared directly with our pantry team. I have reviewed our breakfast and food service standards for this property and am implementing immediate improvements.",
+    "checkin":     "A delayed or poorly handled check-in sets the wrong tone for an entire stay, and I apologise for that. I have reviewed the check-in record for your arrival and spoken with the team directly. This will not happen again.",
+}
+
+_CONTEXT_PARA = {
+    "Medical Stay":          "I understand that staying near a hospital — whether as a patient or accompanying a family member — adds a layer of stress that has nothing to do with accommodation. My personal commitment is to remove every possible friction from that experience. I am directly available to ensure that for any future medical visit.",
+    "Corporate Stay":        "For corporate guests, consistency and reliability are everything — there is no margin for things going wrong. I have reviewed the specific details of your stay and taken direct steps so no professional guest faces the same situation again.",
+    "Family Stay":           "Family stays carry a unique responsibility for us. Every member — from the youngest to the oldest — needs to feel comfortable, safe, and genuinely at home. I take that very seriously and have acted on your feedback accordingly.",
+    "Long Stay / Monthly":   "For long-stay guests especially, every detail compounds over weeks and months. That is precisely why I hold our monthly serviced apartments to a higher standard, and why your feedback has been acted on immediately and not simply filed away.",
+    "Exhibition / Business": "Business visitors attending exhibitions or corporate projects need accommodation that works seamlessly — no surprises, no friction. I am sorry this fell short of that and have taken direct corrective steps.",
+    "Relocation / New Joiner":"Relocating is already stressful enough. Our role is to provide a stable, comfortable base while you settle in — not add to the uncertainty. I have acted on your feedback personally.",
+    "Solo Women Traveler":   "Every solo woman traveler staying with us deserves to feel completely safe, respected, and supported throughout their stay. I have reviewed the concern you raised directly and have already implemented additional measures at the property.",
+}
+
+_SEO_CLOSINGS = {
+    5: "We look forward to welcoming you back to Lime Tree Hotels. Whether your next visit to Gurgaon, Delhi, Noida, Greater Noida, Vrindavan or Goa is for work, a medical stay, or a family visit — please book directly at limetreehotels.com for our guaranteed best rate.",
+    4: "We hope to earn that fifth star on your next visit. Book directly at limetreehotels.com or call +91 74 7900 0111 — you will always get our best rate and personal attention.",
+    3: "I hope the steps I have taken give you reason to consider Lime Tree Hotels again. When you do, please book directly so I can personally ensure the experience reflects our true standard.",
+    2: "I own everything that went wrong during your stay. I have addressed it directly. I hope the actions I have taken demonstrate that this is not who we are — and I stand behind that personally.",
+    1: "I have addressed this directly and personally — not delegated it. If you ever give Lime Tree Hotels another opportunity, I will personally oversee your stay to ensure an entirely different experience.",
+}
+
+
+def analyze_review(text: str) -> dict:
+    t = text.lower()
+    found, sentiments = [], {}
+    for key, (kws, label) in _TOPICS.items():
+        if any(k in t for k in kws):
+            found.append({"key": key, "label": label})
+    neg = sum(1 for w in _NEG_WORDS if w in t)
+    pos = sum(1 for w in _POS_WORDS if w in t)
+    overall = "positive" if pos > neg else "negative" if neg > pos else "mixed"
+    return {"topics": found, "sentiment": overall, "pos": pos, "neg": neg}
+
+
+def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, context: str, analysis: dict) -> tuple:
+    name  = f"Dear {guest_name.strip()}" if guest_name.strip() else "Dear Guest"
+    topics = analysis["topics"]
+    sent   = analysis["sentiment"]
+
+    # Opening
+    openers = {
+        5: f"{name}, thank you sincerely for taking the time to share this wonderful review — it means a great deal to our entire team.",
+        4: f"{name}, thank you for staying with us and for this kind review.",
+        3: f"{name}, thank you for your honest feedback. I have read it carefully and personally.",
+        2: f"{name}, I am personally sorry to read this review, and I want to address it directly.",
+        1: f"{name}, I have read your review personally and I am deeply sorry for the experience you describe.",
+    }
+    opening = openers.get(stars, openers[3])
+
+    # Body — pick segments based on topics and sentiment
+    body_parts = []
+    use_neg = (stars <= 3 or sent == "negative")
+    for t_info in topics[:4]:                        # cap at 4 topics to keep reply focused
+        key = t_info["key"]
+        seg = _NEG_SEGMENT.get(key, "") if use_neg else _POS_SEGMENT.get(key, "")
+        if seg:
+            body_parts.append(seg)
+
+    # Context paragraph
+    ctx_para = _CONTEXT_PARA.get(context, "")
+    if ctx_para:
+        body_parts.append(ctx_para)
+
+    # Fallback if nothing detected
+    if not body_parts:
+        if stars >= 4:
+            body_parts.append("We invest enormously in ensuring our serviced apartments in Gurgaon deliver genuine home comfort — the kitchen, the laundry, the 24/7 support — and knowing a guest truly felt that is exactly the confirmation we work for.")
+        else:
+            body_parts.append("I have reviewed the details of your stay personally. The issues you have raised have been acted upon immediately and directly — not passed to a team, not logged and forgotten.")
+
+    # Closing (SEO-aware for positive, ownership-focused for negative)
+    closing = _SEO_CLOSINGS.get(stars, _SEO_CLOSINGS[3])
+
+    signature = "With regards,\nManagement\nLime Tree Hotels & Service Apartments\n+91 74 7900 0111 | limetreehotels.com"
+
+    full_reply = f"{opening}\n\n" + "\n\n".join(body_parts) + f"\n\n{closing}\n\n{signature}"
+
+    # Keywords embedded (for display)
+    kws_used = []
+    reply_lower = full_reply.lower()
+    for kw, *_ in TOP_KEYWORDS:
+        if any(word in reply_lower for word in kw.split()[:3]):
+            kws_used.append(kw)
+    return full_reply, kws_used[:5]
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Keyword value table
 # ─────────────────────────────────────────────────────────────────────────────
 TOP_KEYWORDS = [
@@ -682,59 +847,144 @@ elif page == "📅  60-Day SEO Plan":
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  ⭐ REVIEW REPLIES
+#  ⭐ REVIEW REPLY CHATBOT
 # ══════════════════════════════════════════════════════════════════════════════
 elif page == "⭐  Review Replies":
-    st.markdown('<div class="page-hdr"><div class="badge">⭐ Review Management</div><h1>Keyword-Rich Review Replies</h1><p>SEO-optimised review responses — Google indexes these replies, embedding high-value keywords directly into your GBP profile.</p></div>', unsafe_allow_html=True)
+    st.markdown("""<div class="page-hdr">
+    <div class="badge">⭐ Review Reply Chatbot</div>
+    <h1>Smart Review Reply Generator</h1>
+    <p>Paste any review — the engine reads every highlight, detects every topic, and writes a direct, owner-voice reply. No deflection. No "contact our team". You speak for yourself.</p>
+    </div>""", unsafe_allow_html=True)
 
-    # Keyword value panel
-    st.markdown('<div class="sc"><h3>🔑 High-Value Keywords Embedded in These Replies</h3>', unsafe_allow_html=True)
-    kw_cols = st.columns(3)
-    for i,(kw,vol,comp,pri,intent) in enumerate(TOP_KEYWORDS):
-        with kw_cols[i%3]:
-            pc = p_color(pri)
-            comp_cls = {"Very Low":"tg","Low":"tg","Low-Med":"tg","Medium":"tgo","High":"tr"}.get(comp,"tgr")
-            st.markdown(f"""<div class="krow" style="margin-bottom:.5rem;">
-            <div><div style="font-size:.82rem;font-weight:600;color:var(--text);">{kw}</div>
-            <div style="font-size:.71rem;color:var(--muted);margin-top:2px;">{vol}/mo &nbsp;·&nbsp; <span class="tag {comp_cls}" style="font-size:.62rem;">{comp} competition</span></div></div>
-            <div style="text-align:right;"><div style="font-size:.95rem;font-weight:700;color:{pc};">P{pri}</div><div style="font-size:.65rem;color:var(--muted);">{intent}</div></div>
+    # ── How it works banner
+    st.markdown("""<div style="background:linear-gradient(90deg,#0D2A10,#091A0B);border:1px solid var(--ba);border-radius:10px;padding:.85rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:2rem;flex-wrap:wrap;">
+    <div style="font-size:.8rem;color:var(--muted);">🔍 <b style="color:var(--text)">Reads the review</b> — detects every topic mentioned</div>
+    <div style="font-size:.8rem;color:var(--muted);">✍️ <b style="color:var(--text)">Writes the reply</b> — direct, first-person, ownership-taking</div>
+    <div style="font-size:.8rem;color:var(--muted);">🔑 <b style="color:var(--text)">Embeds SEO keywords</b> — Google indexes your replies</div>
+    <div style="font-size:.8rem;color:var(--muted);">🚫 <b style="color:var(--text)">No deflection</b> — never says "contact our team"</div>
+    </div>""", unsafe_allow_html=True)
+
+    # ── Main layout
+    inp_col, out_col = st.columns([5, 6], gap="large")
+
+    with inp_col:
+        st.markdown('<div class="sc"><h3>📋 Review Input</h3>', unsafe_allow_html=True)
+
+        review_text = st.text_area(
+            "Paste the guest review here",
+            height=200,
+            placeholder="e.g. The kitchen was well-stocked but the Wi-Fi was very slow. Staff were friendly. Overall okay stay near Medanta Hospital but the AC stopped working on day 2.",
+            label_visibility="collapsed",
+        )
+
+        c1, c2 = st.columns(2)
+        with c1:
+            stars = st.selectbox("Star Rating", [5, 4, 3, 2, 1],
+                format_func=lambda x: f"{'⭐'*x} ({x} star{'s' if x>1 else ''})")
+        with c2:
+            guest_name = st.text_input("Guest Name", placeholder="e.g. Rahul Sharma")
+
+        context = st.selectbox("Stay Context (optional — improves reply)", [
+            "General",
+            "Medical Stay",
+            "Corporate Stay",
+            "Family Stay",
+            "Long Stay / Monthly",
+            "Exhibition / Business",
+            "Relocation / New Joiner",
+            "Solo Women Traveler",
+        ])
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown('<div class="run-btn">', unsafe_allow_html=True)
+        generate_btn = st.button("✍️  GENERATE REPLY", use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # ── Keyword value reference
+        with st.expander("🔑 High-value keywords this chatbot embeds"):
+            for kw, vol, comp, pri, intent in TOP_KEYWORDS:
+                pc = p_color(pri)
+                cc = {"Very Low":"tg","Low":"tg","Low-Med":"tg","Medium":"tgo","High":"tr"}.get(comp,"tgr")
+                st.markdown(f'<div class="krow" style="margin-bottom:.3rem;"><div><div style="font-size:.8rem;font-weight:600;color:var(--text);">{kw}</div><div style="font-size:.7rem;color:var(--muted);">{vol}/mo · <span class="tag {cc}" style="font-size:.6rem;">{comp}</span></div></div><span style="font-size:.9rem;font-weight:700;color:{pc};">P{pri}</span></div>', unsafe_allow_html=True)
+
+    with out_col:
+        if generate_btn:
+            if not review_text.strip():
+                st.warning("Please paste a review on the left before generating.")
+            else:
+                analysis = analyze_review(review_text)
+                reply, kws_used = generate_chatbot_reply(review_text, stars, guest_name, context, analysis)
+                st.session_state["chatbot_reply"]    = reply
+                st.session_state["chatbot_analysis"] = analysis
+                st.session_state["chatbot_kws"]      = kws_used
+                st.session_state["chatbot_stars"]    = stars
+
+        if "chatbot_reply" in st.session_state:
+            analysis   = st.session_state["chatbot_analysis"]
+            reply      = st.session_state["chatbot_reply"]
+            kws_used   = st.session_state["chatbot_kws"]
+            reply_stars= st.session_state["chatbot_stars"]
+
+            # ── Analysis panel
+            topics = analysis["topics"]
+            sent   = analysis["sentiment"]
+            sent_color = {"positive":"var(--accent)","negative":"var(--red)","mixed":"var(--gold)"}.get(sent,"var(--muted)")
+            sent_label = {"positive":"Positive ✅","negative":"Needs careful handling ⚠️","mixed":"Mixed — addressed directly 🟡"}.get(sent,sent)
+
+            st.markdown(f"""<div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;margin-bottom:.9rem;">
+            <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;">Review Analysis</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.6rem;">
+              <span style="font-size:.8rem;color:{sent_color};font-weight:700;">{sent_label}</span>
+              <span style="color:var(--muted);font-size:.75rem;">· {analysis['pos']} positive signals · {analysis['neg']} negative signals</span>
+            </div>
+            <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem;font-weight:600;">TOPICS DETECTED & ADDRESSED:</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+              {'<span class="tag tgr">No specific topics detected</span>' if not topics else
+               ''.join(f'<span class="tag {"tg" if sent=="positive" or reply_stars>=4 else "tr"}">{t["label"]}</span>' for t in topics)}
+            </div>
+            {'<div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.35rem;"><div style="font-size:.7rem;color:var(--muted);width:100%;margin-bottom:.25rem;">SEO KEYWORDS EMBEDDED:</div>' +
+             ''.join(f'<span class="rev-kw">{k}</span>' for k in kws_used) + '</div>' if kws_used else ''}
             </div>""", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown('<p style="color:var(--muted);font-size:.82rem;margin:.25rem 0 1.25rem;">Select a star rating to view reply templates. Replace <code>[Guest Name]</code> and <code>[specific point mentioned]</code> with real details before posting.</p>', unsafe_allow_html=True)
+            # ── Reply display
+            st.markdown(f"""<div style="background:var(--card2);border:1px solid var(--ba);border-radius:10px;padding:.75rem 1.2rem;margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:.8rem;font-weight:700;color:var(--accent);">{'⭐'*reply_stars} Reply — Ready to Post</div>
+            <div style="font-size:.73rem;color:var(--muted);">{len(reply.split())} words · {len(reply)} characters</div>
+            </div>""", unsafe_allow_html=True)
 
-    tab_labels = [STAR_LABELS[s] for s in [5,4,3,2,1]]
-    tabs = st.tabs(tab_labels)
+            st.code(reply, language=None)
 
-    for tab, stars in zip(tabs, [5,4,3,2,1]):
-        with tab:
-            replies = REVIEW_REPLIES[stars]
-            col_info, col_tip = st.columns([3,1])
-            with col_info:
-                count = len(replies)
-                st.markdown(f'<p style="color:var(--muted);font-size:.82rem;">{count} reply template{"s" if count>1 else ""} — each uses different high-value keywords for maximum SEO coverage.</p>', unsafe_allow_html=True)
-            with col_tip:
-                st.markdown(f'<div style="background:var(--g2);border:1px solid #7A602055;border-radius:8px;padding:.6rem .85rem;font-size:.75rem;color:var(--gold);">💡 Rotate between templates so no two replies are identical.</div>', unsafe_allow_html=True)
+            c1, c2 = st.columns(2)
+            with c1:
+                st.download_button("⬇️ Download Reply (.txt)", reply,
+                    f"reply_{stars}star_{datetime.now().strftime('%Y%m%d_%H%M')}.txt",
+                    "text/plain", use_container_width=True)
+            with c2:
+                # Regenerate tip
+                st.markdown(f'<div style="background:var(--g2);border:1px solid #7A602055;border-radius:8px;padding:.6rem .85rem;font-size:.75rem;color:var(--gold);text-align:center;">💡 Adjust context on the left and regenerate for a different angle.</div>', unsafe_allow_html=True)
 
-            for idx, r in enumerate(replies, 1):
-                kw_tags = "".join(f'<span class="rev-kw">{k}</span>' for k in r["keywords"])
-                st.markdown(f"""<div class="rev-card">
-                <div class="rev-context">Reply {idx} — {r['context']}</div>
-                <div class="rev-kw-bar">{kw_tags}</div>
-                </div>""", unsafe_allow_html=True)
-                st.code(r["reply"], language=None)
-                st.markdown("<br>", unsafe_allow_html=True)
+        else:
+            st.markdown("""<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:3rem;text-align:center;height:100%;">
+            <div style="font-size:3rem;margin-bottom:1rem;">💬</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:.6rem;">Paste. Click. Reply.</div>
+            <div style="color:var(--muted);font-size:.87rem;line-height:1.9;max-width:300px;margin:0 auto;">
+            Paste the guest review on the left, set the star rating and context, then click<br>
+            <b style="color:var(--accent)">✍️ Generate Reply</b><br><br>
+            The chatbot detects every topic in the review and writes a direct, personal response — as the owner.
+            </div></div>""", unsafe_allow_html=True)
 
-    # Full download
-    st.markdown("---")
-    all_replies_md = "# Lime Tree Hotels — Keyword-Rich Review Reply Templates\n\n"
-    for stars in [5,4,3,2,1]:
-        all_replies_md += f"\n## {'⭐'*stars} Reviews\n\n"
-        for i,r in enumerate(REVIEW_REPLIES[stars],1):
-            all_replies_md += f"### Template {i} — {r['context']}\n"
-            all_replies_md += f"**Keywords:** {', '.join(r['keywords'])}\n\n"
-            all_replies_md += r["reply"] + "\n\n---\n\n"
-    st.download_button("⬇️ Download All Reply Templates (.md)", all_replies_md, "lime_tree_review_replies.md","text/markdown",use_container_width=True)
+    # ── Template library as a collapsible reference
+    st.markdown("<br>", unsafe_allow_html=True)
+    with st.expander("📋 Backup Template Library (pre-written by star rating)"):
+        tab_labels = [STAR_LABELS[s] for s in [5,4,3,2,1]]
+        btabs = st.tabs(tab_labels)
+        for tab, s in zip(btabs, [5,4,3,2,1]):
+            with tab:
+                for idx, r in enumerate(REVIEW_REPLIES[s], 1):
+                    kw_tags = "".join(f'<span class="rev-kw">{k}</span>' for k in r["keywords"])
+                    st.markdown(f'<div class="rev-card"><div class="rev-context">Template {idx} — {r["context"]}</div><div class="rev-kw-bar">{kw_tags}</div></div>', unsafe_allow_html=True)
+                    st.code(r["reply"], language=None)
+                    st.markdown("<br>", unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
