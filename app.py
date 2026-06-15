@@ -526,6 +526,66 @@ def _pick(variants: list, seed: str) -> str:
     """Select a variant deterministically from the review text so the same review always gets the same reply."""
     return variants[hash(seed[:60]) % len(variants)]
 
+
+# Professional apology language — replaces casual "sorry" phrases throughout
+_APOLOGY_MAP = [
+    ("We are genuinely and deeply sorry",  "We sincerely apologise"),
+    ("we are genuinely and deeply sorry",  "we sincerely apologise"),
+    ("We are deeply sorry",                "We sincerely apologise"),
+    ("we are deeply sorry",                "we sincerely apologise"),
+    ("We are profoundly sorry",            "We deeply regret"),
+    ("we are profoundly sorry",            "we deeply regret"),
+    ("We are truly sorry",                 "We sincerely regret"),
+    ("we are truly sorry",                 "we sincerely regret"),
+    ("We are very sorry",                  "We sincerely regret"),
+    ("we are very sorry",                  "we sincerely regret"),
+    ("We are sincerely sorry",             "We extend our sincerest apologies"),
+    ("we are sincerely sorry",             "we extend our sincerest apologies"),
+    ("We are genuinely sorry",             "We sincerely apologise"),
+    ("we are genuinely sorry",             "we sincerely apologise"),
+    ("we are sorry to",                    "we sincerely regret to"),
+    ("We are sorry to",                    "We sincerely regret to"),
+    ("deeply sorry for the experience",    "sincerely apologise for the experience"),
+    ("sorry to learn",                     "regret to learn"),
+    ("sorry for any",                      "sincerely apologise for any"),
+    ("so sorry",                           "sincerely apologetic"),
+]
+
+
+def _sanitize(text: str) -> str:
+    """Apply professional apology language throughout the reply."""
+    for casual, formal in _APOLOGY_MAP:
+        text = text.replace(casual, formal)
+    return text
+
+
+def _cap_reply(opening: str, body_parts: list, closing: str, signature: str, max_words: int = 108) -> str:
+    """Assemble reply so opening+body+closing fits within max_words (signature excluded).
+    Targets ~130-150 total words when combined with the ~25-word signature block."""
+    import re
+    def sentence_trim(para: str, budget: int) -> str:
+        sentences = re.split(r'(?<=[.!?])\s+', para.strip())
+        out, count = [], 0
+        for s in sentences:
+            w = len(s.split())
+            if count + w > budget and out:
+                break
+            out.append(s)
+            count += w
+        return " ".join(out)
+
+    open_words    = len(opening.split())
+    remaining     = max(max_words - open_words, 45)
+    close_budget  = min(32, remaining // 2)          # closing gets at most 32 words
+    body_budget   = remaining - close_budget          # body gets the rest
+
+    trimmed_close = sentence_trim(closing, close_budget)
+
+    if body_parts:
+        trimmed_body = sentence_trim(body_parts[0], max(body_budget, 22))
+        return f"{opening}\n\n{trimmed_body}\n\n{trimmed_close}\n\n{signature}"
+    return f"{opening}\n\n{trimmed_close}\n\n{signature}"
+
 # ── Positive variants — 3 per topic (Taj/Oberoi/ITC/Leela/Marriott/Hyatt/Four Seasons) ─
 _POS_VARIANTS = {
     "kitchen": [
@@ -932,57 +992,45 @@ def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, contex
             f"{name},\n\nThank you for your honest assessment of your stay. We have reviewed your feedback with the relevant team members and wish to address each point specifically — because we believe every guest deserves a genuine and substantive response, not a templated reply.",
         ],
         2: [
-            f"{name},\n\nWe are genuinely and deeply sorry to learn of the experience you have described during your stay{area_note}{hospital_note}. Please be assured that this review has been reviewed by our management team in full, and we wish to address each concern directly and specifically.",
-            f"{name},\n\nWe are sincerely sorry for the experience you have had, and we wish to be completely direct in our response. Your feedback has been escalated to the management team and reviewed in detail — and we are committed to addressing every concern you have raised with specific action, not assurances alone.",
-            f"{name},\n\nPlease accept our sincere apologies for the experience you have described{hospital_note}. We have reviewed your feedback at the management level and take full responsibility for the shortfalls you encountered. We wish to address each point specifically and transparently.",
+            f"{name},\n\nWe sincerely apologise for the experience you have described during your stay{area_note}{hospital_note}. Please be assured that this review has been reviewed by our management team in full, and we wish to address each concern directly and specifically.",
+            f"{name},\n\nWe extend our sincerest apologies for the experience you have encountered{hospital_note}, and we wish to be completely direct in our response. Your feedback has been escalated to the management team and reviewed in detail — we are committed to addressing every concern with specific action, not assurances alone.",
+            f"{name},\n\nPlease accept our sincerest apologies for the experience you have described{hospital_note}. We have reviewed your feedback at the management level, take full responsibility for the shortfalls you encountered, and wish to address each point specifically and transparently.",
         ],
         1: [
-            f"{name},\n\nWe have read your review as a management team and are deeply sorry for the experience you describe{hospital_note}. This is not the standard Lime Tree Hotels & Service Apartments holds itself to, and we wish to respond with complete transparency about what went wrong and what we have done about it.",
-            f"{name},\n\nWe are profoundly sorry for the experience you have described, and we wish to assure you that your review has been reviewed at the highest level of our management team — not passed to a department. We take full responsibility and wish to address every concern you have raised with direct and specific action.",
-            f"{name},\n\nOn behalf of the entire team at Lime Tree Hotels & Service Apartments, we sincerely and unreservedly apologise for the experience you have described{hospital_note}. Your review has been reviewed by our management team in full. We wish to respond substantively — not defensively — to every concern you have raised.",
+            f"{name},\n\nWe have read your review as a management team and sincerely apologise for the experience you describe{hospital_note}. This is not the standard Lime Tree Hotels & Service Apartments holds itself to, and we wish to respond with complete transparency about what went wrong and what we have done about it.",
+            f"{name},\n\nWe deeply regret the experience you have described{hospital_note}, and we wish to assure you that your review has been reviewed at the highest level of our management team — not passed to a department. We take full responsibility and wish to address every concern you have raised with direct and specific action.",
+            f"{name},\n\nOn behalf of the entire team at Lime Tree Hotels & Service Apartments, we sincerely and unreservedly apologise for the experience you have described{hospital_note}. Your review has been reviewed by our management team in full, and we wish to respond substantively — not defensively — to every concern raised.",
         ],
     }
     opening = _pick(opener_sets.get(stars, opener_sets[3]), seed)
 
-    # ── Body segments — 3 variants per topic, pick by hash ───────────────────
+    # ── Single best-match body paragraph (1 only, to stay within word limit) ─
     body_parts = []
     dept_used  = []
-    for t_info in topics[:3]:
-        key     = t_info["key"]
-        dept    = _DEPT.get(key, "our team")
-        v_dict  = _NEG_VARIANTS if use_neg else _POS_VARIANTS
-        v_list  = v_dict.get(key, [])
+    for t_info in topics[:1]:                        # pick the top detected topic only
+        key    = t_info["key"]
+        dept   = _DEPT.get(key, "our team")
+        v_dict = _NEG_VARIANTS if use_neg else _POS_VARIANTS
+        v_list = v_dict.get(key, [])
         if v_list:
             body_parts.append(_pick(v_list, seed + key))
             dept_used.append(dept)
 
-    # ── Context paragraph ─────────────────────────────────────────────────────
-    ctx_list = _CONTEXT_VARIANTS.get(context, [])
-    if ctx_list:
-        body_parts.append(_pick(ctx_list, seed + context))
-
-    # ── Fallback for undetected topics ────────────────────────────────────────
+    # ── Fallback when no topic detected ──────────────────────────────────────
     if not body_parts:
         fallbacks_pos = [
-            "We invest continually in ensuring every Lime Tree serviced apartment delivers the full experience of a well-run home — a fully equipped kitchen, in-room laundry, high-speed internet, 24/7 caretaker availability, and spaces designed for genuine long-stay comfort. Knowing that a guest truly experienced this standard is the confirmation we work toward every day.",
-            "It is truly gratifying to know that your stay at Lime Tree Hotels reflected the standard we aspire to deliver. We pride ourselves on providing a genuine home-away-from-home — and every piece of positive feedback is a direct validation of the investment our team makes in maintaining that experience.",
-            "We are delighted that your stay was a positive one. The Lime Tree experience — built around a fully functional apartment, a responsive team, and a location that serves your specific purpose — is one we work hard to sustain, and it is very rewarding to know it came through clearly during your visit.",
+            "We invest continually in ensuring every Lime Tree serviced apartment delivers the full experience of a well-run home — a fully equipped kitchen, in-room laundry, high-speed internet, and 24/7 caretaker availability. Knowing a guest truly experienced this standard is the confirmation we work toward every day.",
+            "It is gratifying to know that your stay reflected the standard we aspire to deliver. We pride ourselves on a genuine home-away-from-home experience, and every piece of positive feedback is a direct validation of that commitment.",
+            "We are delighted your stay was a positive one. The Lime Tree experience — a fully functional apartment, a responsive team, and a well-located property — is one we work hard to sustain, and it is very rewarding to know it came through clearly.",
         ]
         fallbacks_neg = [
-            "We have reviewed the details of your stay at the management level. The concerns you have raised have been acted upon immediately and directly — not noted for later, not passed to a third party. Please be assured that we treat every piece of guest feedback as a direct instruction to improve, and we have done exactly that.",
-            "We take full responsibility for the shortfalls you have experienced and wish to assure you that your feedback has been reviewed at the management level and acted upon — not acknowledged and filed. Every guest who stays at a Lime Tree property deserves a seamless, comfortable, and well-supported experience, and we are committed to ensuring that standard is met without exception.",
-            "Your feedback has prompted a direct review of the relevant operational protocols at the property level. The concerns you raised have been addressed specifically and immediately — not generically. We are committed to ensuring that the experience described in your review is never repeated, and we sincerely regret that it occurred in the first place.",
+            "We have reviewed the details of your stay at the management level. Your concerns have been acted upon immediately and directly — not noted for later, not passed to a third party. Please be assured we treat every piece of guest feedback as a direct instruction to improve.",
+            "We take full responsibility for the shortfalls you experienced. Your feedback has been reviewed at the management level and acted upon — not acknowledged and filed. Every guest deserves a seamless, comfortable experience, and we are committed to ensuring that standard without exception.",
+            "Your feedback has prompted a direct review of the relevant operational protocols at the property level. The concerns you raised have been addressed specifically and immediately — we are committed to ensuring this experience is never repeated.",
         ]
-        picks = fallbacks_pos if stars >= 4 else fallbacks_neg
-        body_parts.append(_pick(picks, seed))
+        body_parts.append(_pick(fallbacks_pos if stars >= 4 else fallbacks_neg, seed))
 
-    # ── Department attribution line ───────────────────────────────────────────
-    depts_str = ""
-    if dept_used and use_neg:
-        unique_depts = list(dict.fromkeys(dept_used))  # preserve order, deduplicate
-        depts_str = f"\n\nYour feedback has been shared directly with {', '.join(unique_depts)} for immediate review, corrective action, and follow-through."
-
-    # ── Closing — 2 variants per star rating ─────────────────────────────────
+    # ── Closing ───────────────────────────────────────────────────────────────
     closing_list = _CLOSING_VARIANTS.get(stars, _CLOSING_VARIANTS[3])
     closing      = _pick(closing_list, seed + "closing")
 
@@ -994,12 +1042,8 @@ def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, contex
         "+91 74 7900 0111  ·  limetreehotels.com  ·  reservation@limetreehotels.com"
     )
 
-    full_reply = (
-        f"{opening}\n\n"
-        + "\n\n".join(body_parts)
-        + depts_str
-        + f"\n\n{closing}\n\n{signature}"
-    )
+    # ── Assemble within 100-150 word limit, then sanitize apology language ───
+    full_reply = _sanitize(_cap_reply(opening, body_parts, closing, signature, max_words=125))
 
     reply_lower = full_reply.lower()
     kws_used    = [kw for kw, *_ in TOP_KEYWORDS if any(w in reply_lower for w in kw.split()[:3])]
