@@ -8,7 +8,7 @@ st.set_page_config(page_title="Lime Tree SEO Agent", page_icon="🌿", layout="w
 
 ARCHIVE_DIR = Path("archive")
 ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-START_DATE  = datetime(2026, 5, 31)          # plan start
+START_DATE  = datetime(2026, 6, 16)          # plan start
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS
@@ -1043,7 +1043,7 @@ with st.sidebar:
     st.markdown(f"""<hr><div style="padding:.4rem;font-size:.74rem;line-height:1.9;color:var(--muted);">
     <div>🟢 <b style="color:var(--text)">Engine:</b> Ready — No API needed</div>
     <div>✍️ <b style="color:var(--text)">Generated:</b> {archive_count}/50 articles</div>
-    <div>📅 <b style="color:var(--text)">Plan starts:</b> 31 May 2026</div>
+    <div>📅 <b style="color:var(--text)">Plan starts:</b> 16 Jun 2026</div>
     <div>🏨 <b style="color:var(--text)">Properties:</b> 500+ rooms · 6 cities</div>
     </div>""", unsafe_allow_html=True)
 
