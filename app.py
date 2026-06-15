@@ -419,169 +419,375 @@ Management, Lime Tree Hotels""",
 STAR_LABELS = {5:"⭐⭐⭐⭐⭐ Five Star", 4:"⭐⭐⭐⭐ Four Star", 3:"⭐⭐⭐ Three Star", 2:"⭐⭐ Two Star", 1:"⭐ One Star"}
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Review chatbot — analysis + reply engine
+# Review chatbot — analysis + reply engine  (we-voice, Lime Tree specific)
 # ─────────────────────────────────────────────────────────────────────────────
 _TOPICS = {
-    "kitchen":     (["kitchen","cook","cooking","food","meal","microwave","stove","induction","refrigerator","fridge","utensil","pantry","ingredients"],
+    "kitchen":     (["kitchen","cook","cooking","food","meal","microwave","stove","induction","refrigerator","fridge","utensil","pantry","ingredients","boil","heat up","groceries"],
                     "Kitchen & Cooking Facilities"),
-    "cleanliness": (["clean","dirty","hygiene","dust","spotless","tidy","mess","stain","smell","filthy","unhygienic"],
+    "cleanliness": (["clean","dirty","hygiene","dust","spotless","tidy","mess","stain","smell","filthy","unhygienic","swept","mopped","cobweb","pest","cockroach","bedsheet","linen changed"],
                     "Cleanliness & Housekeeping"),
-    "wifi":        (["wifi","wi-fi","internet","connection","network","bandwidth","slow internet","disconnected","connectivity"],
+    "wifi":        (["wifi","wi-fi","internet","connection","network","bandwidth","slow internet","disconnected","connectivity","broadband","router","signal","mbps"],
                     "Wi-Fi & Internet"),
-    "staff":       (["staff","team","service","helpful","rude","friendly","reception","front desk","check-in","checkin","caretaker","behaviour","behavior","attitude","polite","unprofessional"],
+    "staff":       (["staff","team","service","helpful","rude","friendly","reception","front desk","check-in","checkin","caretaker","behaviour","behavior","attitude","polite","unprofessional","ignored","responded","attentive","prompt","rude","dismissive","warm","welcoming","24 hours","within 24"],
                     "Staff & Service"),
-    "location":    (["location","distance","near","close","far","hospital","metro","medanta","artemis","fortis","golf course","cyber city","iffco","huda","sector"],
+    "location":    (["location","distance","near","close","far","hospital","metro","medanta","artemis","fortis","golf course","cyber city","iffco","huda","sector","walkable","cab","auto","proximity","accessible","connected"],
                     "Location & Proximity"),
-    "price":       (["price","value","expensive","cheap","costly","rate","worth","money","overpriced","affordable","charge","bill","invoice"],
+    "price":       (["price","value","expensive","cheap","costly","rate","worth","money","overpriced","affordable","charge","bill","invoice","cost","budget","pricing","ota","booking.com","makemytrip"],
                     "Pricing & Value"),
-    "room":        (["room","apartment","space","spacious","small","bathroom","toilet","bed","mattress","pillow","comfortable","dark","bright","balcony","furniture"],
+    "room":        (["room","apartment","space","spacious","small","bathroom","toilet","bed","mattress","pillow","comfortable","dark","bright","balcony","furniture","sofa","wardrobe","cupboard","storage","cramped","roomy","airy"],
                     "Room / Apartment"),
-    "laundry":     (["laundry","washing","machine","washer","clothes","linen","dryer"],
+    "laundry":     (["laundry","washing","machine","washer","clothes","linen","dryer","washing powder","washing machine","spin","rinse"],
                     "Laundry"),
-    "parking":     (["parking","car","park","vehicle","bike","two-wheeler"],
+    "parking":     (["parking","car","park","vehicle","bike","two-wheeler","scooter","space for car","basement","open parking"],
                     "Parking"),
-    "ac":          (["ac","air conditioning","air-conditioning","temperature","hot","cold","cool","heating","aircon","hvac"],
+    "ac":          (["ac","air conditioning","air-conditioning","temperature","hot","cold","cool","heating","aircon","hvac","too hot","too cold","sweating","freezing"],
                     "Air Conditioning"),
-    "noise":       (["noise","quiet","loud","sound","noisy","disturb","disturbance","construction","traffic"],
+    "noise":       (["noise","quiet","loud","sound","noisy","disturb","disturbance","construction","traffic","barking","party","music","thin walls"],
                     "Noise Level"),
-    "maintenance": (["maintenance","repair","broken","not working","didn't work","issue","problem","fault","leaking","leak","plumbing","electrical"],
+    "maintenance": (["maintenance","repair","broken","not working","didn't work","issue","problem","fault","leaking","leak","plumbing","electrical","geyser","water heater","tap","flush","switch","light","bulb","power cut"],
                     "Maintenance"),
-    "security":    (["security","safe","safety","lock","key","access","guard","cctv","unsafe"],
+    "security":    (["security","safe","safety","lock","key","access","guard","cctv","unsafe","suspicious","entry","gate","cctv","intercom"],
                     "Security"),
-    "breakfast":   (["breakfast","food quality","meals","restaurant","snack","hungry","pantry service"],
+    "breakfast":   (["breakfast","food quality","meals","restaurant","snack","hungry","pantry service","evening snack","tea","coffee","milk","toast"],
                     "Breakfast / Food"),
-    "checkin":     (["check-in","checkin","check out","checkout","delay","wait","waiting","late","early","arrival"],
+    "checkin":     (["check-in","checkin","check out","checkout","delay","wait","waiting","late","early","arrival","reception time","key handover","process","welcome","greeted"],
                     "Check-in / Check-out"),
+    "housekeeping":([" housekeeping","daily cleaning","sweeping","maid","room service","towel","fresh towel","linen change","room cleaned","not cleaned","cleaning schedule"],
+                    "Daily Housekeeping"),
+    "water":       (["water","geyser","hot water","cold water","pressure","water pressure","supply","tank","shortage","no water","borewell"],
+                    "Water Supply"),
+    "power":       (["power cut","power backup","electricity","load shedding","generator","inverter","ug","power gone","no electricity","light gone"],
+                    "Power Backup"),
 }
 
-_NEG_WORDS = ["bad","poor","terrible","awful","horrible","disappointing","dirty","broken","slow","rude",
-              "not working","issue","problem","worst","never again","waste","overpriced","leaking","noisy",
-              "unhappy","dissatisfied","below average","inadequate","unfortunately","sadly","regret",
-              "expected better","did not meet","failed","disgrace","unacceptable","pathetic","useless",
-              "horrible","mess","disaster","frustrated","upset","angry","annoyed","complaint","didn't work"]
+# ─────────────────────────────────────────────────────────────────────────────
+# Reply-engine vocabulary  (trained on Taj / Oberoi / ITC / Leela patterns)
+# ─────────────────────────────────────────────────────────────────────────────
 
-_POS_WORDS = ["great","good","excellent","amazing","wonderful","perfect","comfortable","clean","helpful",
-              "friendly","spacious","love","loved","enjoyed","fantastic","brilliant","highly recommend",
-              "will visit again","best","outstanding","superb","satisfied","impressed","happy","pleased",
-              "thank you","5 star","five star","beautiful","nice","pleasant","cozy","cosy","homely","value for money"]
+_NEG_WORDS = [
+    "bad","poor","terrible","awful","horrible","disappointing","dirty","broken","slow","rude",
+    "not working","issue","problem","worst","never again","waste","overpriced","leaking","noisy",
+    "unhappy","dissatisfied","below average","inadequate","unfortunately","sadly","regret",
+    "expected better","did not meet","failed","disgrace","unacceptable","pathetic","useless",
+    "mess","disaster","frustrated","upset","angry","annoyed","complaint","didn't work",
+    "not clean","no hot water","power went","no power","ac not working","wifi not working",
+    "couldn't sleep","broken down","smell bad","smell terrible","pest","cockroach","rude staff",
+    "unprofessional","delayed","late checkin","overcharged","billed extra","maintenance ignored",
+    "no response","no one came","waited hours","dark room","small room","cramped","noisy room",
+]
 
+_POS_WORDS = [
+    "great","good","excellent","amazing","wonderful","perfect","comfortable","clean","helpful",
+    "friendly","spacious","love","loved","enjoyed","fantastic","brilliant","highly recommend",
+    "will visit again","best","outstanding","superb","satisfied","impressed","happy","pleased",
+    "thank you","5 star","five star","beautiful","nice","pleasant","cozy","cosy","homely",
+    "value for money","well maintained","well-maintained","prompt","quick","fast","smooth","easy",
+    "convenient","worth it","exceeded","above expectations","delighted","lovely","appreciated",
+    "professional","attentive","responsive","warm welcome","felt at home","like home","peaceful",
+    "quiet","safe","secure","highly satisfied","exceeded expectations","top notch","spotless",
+]
+
+# ── Departments for authentic attribution (Taj / Oberoi / ITC style) ─────────
+_DEPT = {
+    "kitchen":     "our Kitchen & Hospitality team",
+    "cleanliness": "our Housekeeping Manager",
+    "wifi":        "our Technical Services team",
+    "staff":       "our Guest Relations Manager",
+    "location":    "our Reservations team",
+    "price":       "our Revenue & Guest Relations team",
+    "room":        "our Property Manager",
+    "laundry":     "our Housekeeping Supervisor",
+    "parking":     "our Facilities team",
+    "ac":          "our Maintenance Engineer",
+    "noise":       "our Property Manager and Building Management",
+    "maintenance": "our Maintenance Supervisor",
+    "security":    "our Security Manager",
+    "breakfast":   "our Food & Hospitality team",
+    "checkin":     "our Front Office Manager",
+    "housekeeping":"our Housekeeping Manager",
+    "water":       "our Facilities Engineer",
+    "power":       "our Electrical & Maintenance team",
+}
+
+# ── Positive segments — Taj "heartening to learn" + Oberoi "assurance" style ─
 _POS_SEGMENT = {
-    "kitchen":     "I'm genuinely glad our fully equipped kitchen made such a difference. Home-cooked meals are something I personally believe every long-stay guest deserves, and it is gratifying to see that commitment recognised.",
-    "cleanliness": "Maintaining rigorous cleanliness standards is something I personally oversee across all our properties. Knowing it met your expectations is very encouraging for the entire team.",
-    "wifi":        "Reliable, fast Wi-Fi is non-negotiable — especially for business travelers and families coordinating medical care remotely. I am glad it held up throughout your visit.",
-    "staff":       "I will personally share your kind words with the team members who looked after you. They work exceptionally hard to ensure every guest feels genuinely cared for, not just checked in.",
-    "location":    "Our locations are chosen deliberately for their proximity to hospitals, business corridors, and metro connectivity, and it is rewarding to see that strategic choice serve a guest well.",
-    "price":       "I take our Best Price Guarantee very seriously — and I am glad you felt the value delivered on that promise. Direct bookings at limetreehotels.com always carry that commitment.",
-    "room":        "Providing apartments that feel like a real home — spacious, well-furnished, and genuinely comfortable — is a standard I set personally, and I am pleased it showed during your stay.",
-    "laundry":     "In-room laundry is one of those details that sounds modest until you are two or three weeks into a stay. I'm glad it made life easier.",
-    "parking":     "Complimentary parking is something we insist on for our guests. I am glad it was convenient.",
-    "ac":          "A perfectly temperature-controlled environment makes a huge difference, especially during Gurgaon's extreme seasons. I'm glad the AC performed well throughout.",
-    "noise":       "A peaceful, quiet environment is essential for proper rest — particularly for guests recovering from medical procedures. I'm pleased you found it so.",
-    "security":    "Security across all our properties is something I review personally and continuously. I'm glad you felt safe throughout your stay.",
-    "breakfast":   "I'm glad our breakfast and pantry service worked well for you. Ensuring good quality food options for long-stay guests is a priority I take seriously.",
-    "checkin":     "A smooth, welcoming check-in sets the tone for everything. I'm glad the process worked well and that the team was ready for you.",
-    "maintenance": "Well-maintained facilities are a baseline commitment I hold every property to. I'm pleased everything was in working order throughout your stay.",
+    "kitchen":
+        "We are heartened to learn that our fully equipped kitchen — complete with an induction stove, refrigerator, microwave, and a full utensil set — contributed so meaningfully to your stay. At Lime Tree Hotels, we believe that a serviced apartment should function as a genuine home, and the ability to prepare one's own meals — particularly for guests on extended stays or accompanying family during medical visits — is a facility we invest in and maintain to the highest standard across all our properties.",
+
+    "cleanliness":
+        "We are delighted to note your appreciation of the cleanliness and upkeep of the apartment. Our Housekeeping team follows a structured protocol — a deep clean before every check-in, followed by scheduled maintenance throughout the stay — and your acknowledgement is a testament to their commitment. Please be assured that we shall continue to hold this standard without compromise.",
+
+    "wifi":
+        "It is gratifying to learn that our high-speed internet connectivity met your expectations throughout your stay. We are fully aware that reliable Wi-Fi is not a luxury but a necessity — whether one is a corporate professional working remotely, a medical companion coordinating with specialists, or a family staying in touch with loved ones. Please be assured that we monitor network performance continuously across all our Gurgaon properties.",
+
+    "staff":
+        "We are truly delighted to read your appreciation of our team. Your kind words have been shared with our Guest Relations Manager and the individual team members concerned — it is the highest form of recognition for them and motivates the entire property. At Lime Tree Hotels, we commit to meeting every guest within 24 hours of check-in to understand their specific needs and remain fully accessible throughout their stay.",
+
+    "location":
+        "We are pleased to learn that our location served your purpose so well. Our properties in Gurgaon are deliberately positioned near Medanta–The Medicity, Artemis Hospital, Fortis Memorial, Golf Course Road, Cyber City, IFFCO Chowk, and HUDA City Centre — so that whether you are here for a medical visit, a corporate assignment, or an extended family stay, the distance to your destination is always considered. We are glad it made a difference.",
+
+    "price":
+        "We are heartened to know that you found your stay to represent genuine value. Please be assured that our Best Price Guarantee is a firm commitment — guests who book directly at limetreehotels.com always receive rates that no OTA platform can match, without additional commission markups. We are glad this was reflected in your experience.",
+
+    "room":
+        "It is wonderful to learn that the apartment felt like a true home. Every Lime Tree serviced apartment — from our 1BHK to our 3BHK configurations — is designed with careful attention to space, natural light, furniture quality, and storage, because we understand that a guest staying for two weeks or two months should feel genuinely settled, not merely housed. Your appreciation of those details is very encouraging.",
+
+    "laundry":
+        "We are glad our in-room laundry facility added to the convenience of your stay. It is one of those provisions that becomes indispensable on an extended visit — and we include it across all our serviced apartments in Gurgaon precisely for that reason. We are pleased it served you well.",
+
+    "parking":
+        "We are delighted that our complimentary parking facility proved convenient. We maintain dedicated parking across all our Gurgaon properties because we recognise how important it is — particularly for guests driving in from other cities or keeping a vehicle during a long stay. Please be assured this will continue to be available on every visit.",
+
+    "ac":
+        "We are pleased to note that the air conditioning maintained the right environment throughout your stay. Our Maintenance team conducts thorough pre-check-in inspections of all HVAC units — particularly critical given Delhi NCR's extreme seasonal temperatures — and your confirmation that it performed well is very gratifying.",
+
+    "noise":
+        "We are heartened to learn that you found the environment peaceful and restful. We recognise that a quiet, undisturbed atmosphere is especially vital for guests recovering from medical procedures or managing demanding corporate schedules, and our team actively ensures that noise levels remain controlled across the property.",
+
+    "security":
+        "We are very pleased that you felt safe and secure throughout your stay. At Lime Tree Hotels, security is treated as a foundational responsibility — not an afterthought. From controlled entry access and CCTV coverage to a dedicated on-site caretaker available round the clock, every measure is in place to ensure every guest feels completely protected.",
+
+    "breakfast":
+        "We are glad our breakfast and pantry service met your expectations. Providing quality meal options — particularly for guests who may not always be in a position to step out — is part of the full serviced apartment experience we commit to, and your appreciation means a great deal to our Food & Hospitality team.",
+
+    "checkin":
+        "We are delighted that your arrival experience set a positive tone for the stay. A warm, efficient, and personalised welcome is something we regard as the first and most important impression of Lime Tree Hotels, and our Front Office team works hard to ensure every guest is fully settled and informed within the first thirty minutes of arrival.",
+
+    "housekeeping":
+        "We are heartened to know that our housekeeping standard held consistently throughout your stay. Daily upkeep — not just a one-time clean at check-in — is a non-negotiable commitment at every Lime Tree property, and your recognition of that sustained effort is very encouraging for our team.",
+
+    "water":
+        "We are pleased that the hot water supply and water pressure were consistent throughout your visit. Reliable water systems are something our Facilities team monitors and maintains proactively, and it is gratifying to know this contributed positively to your daily comfort.",
+
+    "power":
+        "We are glad our 24/7 power backup system ensured an uninterrupted stay. Our inverter and generator infrastructure across all Gurgaon properties is maintained specifically to eliminate any disruption from the load shedding that is common across Delhi NCR — and we are pleased it performed exactly as intended.",
+
+    "maintenance":
+        "It is pleasing to know that all facilities and fittings were in good working order throughout your stay. Our Maintenance team conducts pre-check-in inspections of every apartment — reviewing all appliances, plumbing, electrical fittings, and climate control — and your confirmation that this standard was met is very much appreciated.",
 }
 
+# ── Negative segments — Oberoi "we note with concern" + Taj "immediate action" style ─
 _NEG_SEGMENT = {
-    "kitchen":     "The kitchen issue you have described has been addressed personally by me. I inspected the unit, confirmed the fault, and it has been resolved. Our kitchens are a flagship feature — this standard slipping is unacceptable and I have put a daily appliance check in place.",
-    "cleanliness": "The cleanliness concern you raised is unacceptable, and I want to be direct about that. I have personally reviewed the housekeeping log for your stay, spoken to the team responsible, and implemented an immediate improvement protocol. This is my responsibility and I have already acted on it.",
-    "wifi":        "A slow or unreliable internet connection is simply not acceptable — particularly for guests who depend on it for work or medical coordination. I have had the connectivity reviewed and upgraded for this unit immediately. This should not have been left unresolved during your stay.",
-    "staff":       "The service experience you described is below the standard I set and expect from my team. I have already spoken directly with the relevant staff members about this. Professional, warm, and responsive service is foundational to what we do — not optional.",
-    "location":    "I understand if the distance to your specific destination felt further than expected. For your next visit, I would encourage you to tell us your destination when booking so we can recommend the most convenient property from our portfolio in Gurgaon, Greater Noida, Delhi, or Noida.",
-    "price":       "I understand value is everything, and I want to address this directly. Our absolute best rates are always on direct booking at limetreehotels.com — never on OTA platforms, which add a 15–25% commission. For long stays especially, that difference is significant. I would personally arrange a better rate for your next visit.",
-    "room":        "The concern about the room or apartment has been flagged and I have personally reviewed it. The specific issue has been addressed. Our apartments are designed to provide genuine space and comfort — when that standard slips, I take it seriously and act on it immediately.",
-    "laundry":     "The laundry facility issue has been identified and repaired. I have also added a daily functionality check for all in-room appliances. This should have been caught before your check-in — I own that.",
-    "parking":     "I'm sorry for any parking inconvenience during your stay. I have reviewed the allocation process and made changes to ensure this does not recur.",
-    "ac":          "An air conditioning failure during your stay is deeply uncomfortable and I sincerely apologise. The unit has been fully serviced and I have confirmed it is operational. A pre-check protocol has been implemented to catch this before any future guest arrives.",
-    "noise":       "The noise disturbance you experienced is something I have taken up directly with building management. I have committed to specific remedial steps and will personally follow up on them. Our guests deserve restful, undisturbed accommodation.",
-    "maintenance": "The maintenance issue you described should never have been left unresolved during your stay. I reviewed the maintenance log personally, addressed the fault, and put in place a daily pre-check protocol so no guest faces this again.",
-    "security":    "I have reviewed the specific security concern you raised and have already taken corrective action at the property. Every guest deserves to feel completely safe — this is non-negotiable for me.",
-    "breakfast":   "The feedback on food quality has been noted and shared directly with our pantry team. I have reviewed our breakfast and food service standards for this property and am implementing immediate improvements.",
-    "checkin":     "A delayed or poorly handled check-in sets the wrong tone for an entire stay, and I apologise for that. I have reviewed the check-in record for your arrival and spoken with the team directly. This will not happen again.",
+    "kitchen":
+        "We note with deep concern your feedback regarding the kitchen facilities during your stay. Please be assured that this has been escalated immediately to our Kitchen & Hospitality team and the specific fault — whether in the induction stove, refrigerator, microwave, or utensil set — has been identified and resolved. Our kitchen is a flagship feature of every Lime Tree serviced apartment, designed to give every guest the independence of home cooking. We have implemented a mandatory daily appliance inspection to ensure no future guest encounters this. We sincerely regret the inconvenience caused.",
+
+    "cleanliness":
+        "We are genuinely concerned to note your feedback regarding cleanliness, and we wish to address it directly and without reservation. We have reviewed the housekeeping record for your stay, spoken individually with our Housekeeping Manager, and identified where the protocol was not followed. A corrective action plan has been put in place immediately — covering both the pre-check-in deep clean and the daily maintenance schedule. This is not reflective of the standard we set for ourselves, and we sincerely regret that it fell short during your visit.",
+
+    "wifi":
+        "We note with concern your experience with internet connectivity during your stay, and we sincerely regret the disruption this caused. A reliable, high-speed connection is a non-negotiable facility at every Lime Tree property — whether our guest is a corporate professional working remotely, a medical companion coordinating with specialists, or a student on a long stay. We have had our Technical Services team conduct a full diagnostic and upgrade of the router configuration for the affected unit. A Wi-Fi speed verification has also been added to our pre-check-in checklist.",
+
+    "staff":
+        "We are deeply concerned by the service experience you have described, and we wish to be direct: this falls below the standard we hold ourselves to at Lime Tree Hotels. We have shared your feedback with our Guest Relations Manager and addressed the matter directly with the team members involved. At Lime Tree, our commitment is to meet every guest within 24 hours of check-in, anticipate their needs, and remain genuinely responsive throughout the stay — that clearly did not happen in your case, and we sincerely regret it. Please be assured that this has been treated as a training and accountability matter at the property level.",
+
+    "location":
+        "We understand that the proximity to your specific destination may not have been as expected, and we appreciate you sharing this. We would like to note that our portfolio spans Gurgaon, Greater Noida, Delhi, and Noida — with properties deliberately positioned near Medanta–The Medicity, Artemis Hospital, Fortis Memorial, Cyber City, Golf Course Road, and India Expo Mart. We encourage you to share your destination with our Reservations team at the time of enquiry so we can recommend the most convenient property from our portfolio — one that we are confident will serve you better on your next visit.",
+
+    "price":
+        "We note your concern regarding value, and we would like to address it directly. Please be assured that our absolute best rates are available exclusively through direct booking at limetreehotels.com — OTA platforms such as Booking.com, MakeMyTrip, and Goibibo add a 15–25% commission that is inevitably built into the displayed price. For long stays of 7, 14, or 30+ nights, this difference is very significant. We would be pleased to have our Guest Relations team prepare a customised rate for your next visit that we are confident would represent a materially better proposition.",
+
+    "room":
+        "We are concerned to note your feedback regarding the room or apartment, and we sincerely regret that it did not meet your expectations. Your comments have been shared with our Property Manager, who has reviewed the specific unit and addressed the issue noted. Every Lime Tree serviced apartment is designed to deliver genuine space, quality furnishing, and a sense of home — and when this falls short, we treat it as a priority, not a footnote. Please be assured that the unit has been inspected and corrected, and a pre-check-in review protocol is now in place for every future guest.",
+
+    "laundry":
+        "We sincerely regret the inconvenience caused by the in-room laundry facility during your stay. The issue has been identified by our Housekeeping Supervisor, the washing machine has been repaired and certified operational, and a functionality check has been added to our daily pre-check-in inspection. This should have been caught before your arrival — please be assured that it has been treated as a systems failure, not a minor oversight.",
+
+    "parking":
+        "We regret the inconvenience caused by the parking arrangements during your stay and we have noted it with full seriousness. Our Facilities team has reviewed the parking allocation process at the property and implemented changes to ensure consistent availability for every arriving guest. Complimentary parking is a commitment we make at all our Gurgaon properties, and we are sorry it was not delivered as promised on this occasion.",
+
+    "ac":
+        "We sincerely regret the discomfort caused by the air conditioning issue during your stay — particularly given Delhi NCR's extreme temperatures. Please be assured that our Maintenance Engineer has conducted a full service of the HVAC unit in the affected apartment, confirmed it fully operational, and added a mandatory 24-hour pre-check-in performance test to the property checklist. This was an unacceptable lapse, and we have ensured it will not recur.",
+
+    "noise":
+        "We are sincerely sorry to note that noise disturbance affected the quality of your stay, and we have taken this concern to our Property Manager and Building Management immediately. We have committed to specific remedial steps — including scheduling and noise-hour enforcement at the building level — and are following up directly to ensure implementation. Our guests — whether recovering from a procedure, working on a corporate deadline, or resting after a long journey — deserve an undisturbed environment, and we regret that we did not deliver this.",
+
+    "maintenance":
+        "We note with deep concern that a maintenance issue remained unresolved during your stay, and we sincerely regret the inconvenience this caused. Your feedback has been shared with our Maintenance Supervisor, the specific fault has been identified and repaired, and a comprehensive pre-check-in inspection protocol covering all critical systems — plumbing, electrical fittings, geyser, flush, and climate control — has been put in place. Please be assured this has been treated as a systems failure requiring immediate corrective action, not a one-time exception.",
+
+    "security":
+        "We are deeply concerned by the security-related feedback you have shared, and we want to assure you that it has been elevated to our Security Manager and the Property Manager immediately. A review of entry access control, CCTV coverage, and caretaker protocols has been conducted at the property, and corrective action has been taken. Every guest at a Lime Tree Hotel has an unconditional right to feel completely safe — this is non-negotiable, and we regret that your experience fell short of that standard.",
+
+    "breakfast":
+        "We regret to learn that our breakfast and pantry service did not meet your expectations, and we have shared your specific feedback with our Food & Hospitality team and the vendor responsible for supply. A review of quality benchmarks and replenishment frequency has been initiated immediately. Please be assured that this aspect of the serviced apartment experience is one we take seriously, and we are implementing improvements that will be in place for every guest going forward.",
+
+    "checkin":
+        "We are concerned to note that the check-in experience did not reflect the standard we set at Lime Tree Hotels, and we sincerely regret the impression this created. Your feedback has been shared with our Front Office Manager and the team on duty at the time of your arrival — the specific lapse has been identified and addressed directly. A seamless, warm, and well-prepared welcome within thirty minutes of arrival is a commitment we make to every guest, and we failed to deliver on it in your case. Please be assured this has been corrected.",
+
+    "housekeeping":
+        "We note with genuine concern that housekeeping standards were inconsistent during your stay, and we sincerely regret the inconvenience this caused. We have reviewed the cleaning schedule with our Housekeeping Manager, identified the gaps in execution, and implemented a daily sign-off protocol for every occupied unit at the property. Daily upkeep — not just a check-in clean — is a firm commitment at every Lime Tree serviced apartment, and this has been reinforced across the team.",
+
+    "water":
+        "We sincerely regret the disruption caused by water supply or pressure issues during your stay. Our Facilities Engineer has reviewed the geyser, tank levels, and pressure system for the affected unit and confirmed all have been serviced and corrected. A water system performance check has also been added to our daily property review. Please be assured this has been treated with the urgency it deserves.",
+
+    "power":
+        "We are genuinely sorry that power backup failed to perform as expected during your stay. We maintain inverter and generator systems specifically to ensure uninterrupted supply for all our guests, and a failure in this system is unacceptable. Our Electrical & Maintenance team has conducted a full inspection and load test of the backup infrastructure at the property, and the fault has been resolved. This standard will be maintained going forward without exception.",
 }
 
+# ── Context paragraphs — ITC "commitment" + Leela "privilege" + Taj "personal assurance" ─
 _CONTEXT_PARA = {
-    "Medical Stay":          "I understand that staying near a hospital — whether as a patient or accompanying a family member — adds a layer of stress that has nothing to do with accommodation. My personal commitment is to remove every possible friction from that experience. I am directly available to ensure that for any future medical visit.",
-    "Corporate Stay":        "For corporate guests, consistency and reliability are everything — there is no margin for things going wrong. I have reviewed the specific details of your stay and taken direct steps so no professional guest faces the same situation again.",
-    "Family Stay":           "Family stays carry a unique responsibility for us. Every member — from the youngest to the oldest — needs to feel comfortable, safe, and genuinely at home. I take that very seriously and have acted on your feedback accordingly.",
-    "Long Stay / Monthly":   "For long-stay guests especially, every detail compounds over weeks and months. That is precisely why I hold our monthly serviced apartments to a higher standard, and why your feedback has been acted on immediately and not simply filed away.",
-    "Exhibition / Business": "Business visitors attending exhibitions or corporate projects need accommodation that works seamlessly — no surprises, no friction. I am sorry this fell short of that and have taken direct corrective steps.",
-    "Relocation / New Joiner":"Relocating is already stressful enough. Our role is to provide a stable, comfortable base while you settle in — not add to the uncertainty. I have acted on your feedback personally.",
-    "Solo Women Traveler":   "Every solo woman traveler staying with us deserves to feel completely safe, respected, and supported throughout their stay. I have reviewed the concern you raised directly and have already implemented additional measures at the property.",
+    "Medical Stay":
+        "We recognise that a stay near a hospital — whether as a patient facing a medical procedure or as a family member providing care and support — carries a weight that goes far beyond accommodation. Our serviced apartments near Medanta–The Medicity in Sector 38, Artemis Hospital in Sector 51, and Fortis Memorial Research Institute are specifically configured for this purpose: a fully equipped kitchen for dietary requirements, in-room laundry for independence, 24/7 on-site caretaker access, and a dedicated welcome within 24 hours of check-in to understand your specific needs. Please be assured that on any future medical visit to Gurgaon, we are fully committed to making every aspect of your stay seamless.",
+
+    "Corporate Stay":
+        "We are fully aware that for corporate guests on assignments, projects, or short-term postings in Gurgaon's business corridors — Cyber City, Golf Course Road, DLF Phase 5, IFFCO Chowk — accommodation must perform reliably and without friction. There is no margin for disruption when one is managing professional commitments. Your feedback has been reviewed in this context and the relevant corrective steps have been taken at the property level. We look forward to supporting your team's future stays in Gurgaon with the consistency and professionalism that a corporate housing arrangement demands.",
+
+    "Family Stay":
+        "We understand that a family stay — particularly in a city as demanding as Gurgaon — requires a living environment that every member, from the youngest to the most senior, can find genuinely comfortable and secure. Our 2BHK and 3BHK serviced apartments are designed with precisely this in mind: multiple private rooms, a fully equipped shared kitchen, and sufficient space for the family to settle in properly. We have taken your feedback very seriously and acted on it accordingly, and we look forward to the opportunity to welcome your family again under circumstances that fully reflect our standard.",
+
+    "Long Stay / Monthly":
+        "We are acutely aware that for guests on weekly or monthly stays, every detail accumulates in significance. What might be a minor inconvenience on a one-night hotel visit becomes a sustained disruption over two or four weeks. It is precisely for this reason that we hold our long-stay furnished apartments in Gurgaon to a higher standard of pre-arrival preparation and ongoing upkeep — and why your feedback has triggered an immediate internal review rather than a standard response. Please be assured that we have acted on it with the seriousness it warrants.",
+
+    "Exhibition / Business":
+        "We fully appreciate that visitors attending exhibitions at India Expo Mart, Greater Noida, or corporate events across the Delhi NCR region operate on schedules where every hour is accounted for. Accommodation must function as a quiet, efficient base — never a source of additional complexity. We regret that your stay did not fully reflect this, and we have taken direct remedial steps to ensure that future business visitors from our Gurgaon and Greater Noida properties experience the seamless support they require.",
+
+    "Relocation / New Joiner":
+        "We understand that relocating to a new city — particularly at the start of a new professional chapter — is a significant transition that demands a stable, comfortable, and fully functional base from day one. Our serviced apartments for relocation and new joiners are designed to remove as much friction as possible from that process: everything in place, fully functional, and supported by an accessible team. We have noted your feedback and taken it seriously, and we look forward to ensuring that the next chapter of your stay in Gurgaon reflects the standard we are committed to.",
+
+    "Solo Women Traveler":
+        "We regard the safety, comfort, and dignity of every solo woman traveler as an unconditional commitment — not a policy point. At Lime Tree Hotels, this means controlled entry access, round-the-clock front desk support, lower-floor room allocation on request, and a dedicated lady executive contact at the property. We have reviewed the specific concern you raised and ensured that our protocols were examined and strengthened at the property level. Please be assured that on any future stay, these provisions will be in full effect from the moment of check-in.",
 }
 
+# ── Closings — Taj "very much look forward" + Oberoi "pleasure of welcoming" style ─
 _SEO_CLOSINGS = {
-    5: "We look forward to welcoming you back to Lime Tree Hotels. Whether your next visit to Gurgaon, Delhi, Noida, Greater Noida, Vrindavan or Goa is for work, a medical stay, or a family visit — please book directly at limetreehotels.com for our guaranteed best rate.",
-    4: "We hope to earn that fifth star on your next visit. Book directly at limetreehotels.com or call +91 74 7900 0111 — you will always get our best rate and personal attention.",
-    3: "I hope the steps I have taken give you reason to consider Lime Tree Hotels again. When you do, please book directly so I can personally ensure the experience reflects our true standard.",
-    2: "I own everything that went wrong during your stay. I have addressed it directly. I hope the actions I have taken demonstrate that this is not who we are — and I stand behind that personally.",
-    1: "I have addressed this directly and personally — not delegated it. If you ever give Lime Tree Hotels another opportunity, I will personally oversee your stay to ensure an entirely different experience.",
+    5: "We very much look forward to welcoming you back to Lime Tree Hotels & Service Apartments. Whenever your next visit to Gurgaon brings you here — whether near Medanta Hospital, Artemis Hospital, Golf Course Road, Cyber City, or any of our locations across Delhi, Noida, Greater Noida, Vrindavan, and Goa — please book directly at limetreehotels.com for our guaranteed best rate, with the full assurance of our personal attention.",
+
+    4: "We very much hope to have the pleasure of welcoming you back to Lime Tree Hotels & Service Apartments and earning the full five stars that we aim to deserve. Please do book directly at limetreehotels.com or call us at +91 74 7900 0111 — you will always receive our best available rate, no OTA markup, and a team that is fully prepared for your arrival.",
+
+    3: "We sincerely hope that the steps we have taken give you reason to consider Lime Tree Hotels & Service Apartments once more. When you do, please book directly at limetreehotels.com so that our Guest Relations team can ensure every detail of your stay is prepared and confirmed to your satisfaction before arrival.",
+
+    2: "We take full ownership of everything that fell short during your stay and wish to be direct: the corrective actions described above have been implemented as a team — not noted and filed for later. We genuinely hope to have the opportunity to demonstrate what Lime Tree Hotels & Service Apartments is truly capable of delivering.",
+
+    1: "We wish to assure you that this matter has been addressed with complete seriousness at the leadership level of Lime Tree Hotels — not passed to a department, not acknowledged and shelved. If you are ever willing to give us another opportunity, we will ensure every aspect of your stay is personally overseen from arrival to departure.",
 }
+
+
+def _detect_context(text: str) -> dict:
+    """Detect hospitals, business areas, and guest type from the review text itself."""
+    t = text.lower()
+    out = {}
+    if "medanta" in t:                               out["hospital"] = "Medanta–The Medicity, Sector 38"
+    elif "artemis" in t:                             out["hospital"] = "Artemis Hospital, Sector 51"
+    elif "fortis" in t:                              out["hospital"] = "Fortis Memorial Research Institute"
+    elif "hospital" in t or "patient" in t:          out["hospital"] = "the hospital"
+    if "cyber city" in t or "cybercity" in t:        out["area"] = "Cyber City"
+    elif "golf course" in t:                         out["area"] = "Golf Course Road"
+    elif "dlf" in t:                                 out["area"] = "DLF corridor"
+    elif "iffco" in t:                               out["area"] = "IFFCO Chowk"
+    elif "huda" in t:                                out["area"] = "HUDA City Centre"
+    elif "expo mart" in t or "exhibition" in t:      out["area"] = "India Expo Mart, Greater Noida"
+    if any(w in t for w in ["patient","surgery","treatment","procedure","operation","recovery","chemotherapy","dialysis","doctor","oncology","dialysis"]):
+        out["guest_type"] = "medical"
+    elif any(w in t for w in ["project","office","client","corporate","business trip","assignment","deployment","work from"]):
+        out["guest_type"] = "corporate"
+    elif any(w in t for w in ["family","kids","children","son","daughter","spouse","parents","wife","husband","grandmother","grandfather"]):
+        out["guest_type"] = "family"
+    elif any(w in t for w in ["month","monthly","weeks","long stay","extended stay","relocated","relocation","new joiner","joined","new job"]):
+        out["guest_type"] = "long_stay"
+    elif any(w in t for w in ["alone","solo","woman alone","travelling alone","single lady","by myself"]):
+        out["guest_type"] = "solo_women"
+    return out
 
 
 def analyze_review(text: str) -> dict:
     t = text.lower()
-    found, sentiments = [], {}
+    found = []
     for key, (kws, label) in _TOPICS.items():
         if any(k in t for k in kws):
             found.append({"key": key, "label": label})
     neg = sum(1 for w in _NEG_WORDS if w in t)
     pos = sum(1 for w in _POS_WORDS if w in t)
     overall = "positive" if pos > neg else "negative" if neg > pos else "mixed"
-    return {"topics": found, "sentiment": overall, "pos": pos, "neg": neg}
+    return {"topics": found, "sentiment": overall, "pos": pos, "neg": neg, "specifics": _detect_context(text)}
 
 
 def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, context: str, analysis: dict) -> tuple:
-    name  = f"Dear {guest_name.strip()}" if guest_name.strip() else "Dear Guest"
-    topics = analysis["topics"]
-    sent   = analysis["sentiment"]
+    name    = f"Dear {guest_name.strip()}" if guest_name.strip() else "Dear Guest"
+    topics  = analysis["topics"]
+    sent    = analysis["sentiment"]
+    specs   = analysis.get("specifics", {})
+    use_neg = (stars <= 3 or sent == "negative")
 
-    # Opening
+    # ── Auto-detect context from review text ──────────────────────────────────
+    if context == "General":
+        gt = specs.get("guest_type", "")
+        if gt == "medical":       context = "Medical Stay"
+        elif gt == "corporate":   context = "Corporate Stay"
+        elif gt == "family":      context = "Family Stay"
+        elif gt == "long_stay":   context = "Long Stay / Monthly"
+        elif gt == "solo_women":  context = "Solo Women Traveler"
+
+    # ── Personalised opening — Taj / Leela style ──────────────────────────────
+    hospital_note = f", and we appreciate the trust you placed in us during your visit to {specs['hospital']}" if specs.get("hospital") else ""
+    area_note     = f" in {specs['area']}" if specs.get("area") else " in Gurgaon"
+
     openers = {
-        5: f"{name}, thank you sincerely for taking the time to share this wonderful review — it means a great deal to our entire team.",
-        4: f"{name}, thank you for staying with us and for this kind review.",
-        3: f"{name}, thank you for your honest feedback. I have read it carefully and personally.",
-        2: f"{name}, I am personally sorry to read this review, and I want to address it directly.",
-        1: f"{name}, I have read your review personally and I am deeply sorry for the experience you describe.",
+        5: (f"{name},\n\nThank you sincerely for choosing Lime Tree Hotels & Service Apartments{area_note}"
+            f"{hospital_note}, and for taking the time to share such a generous review. "
+            f"We are truly delighted to learn that your stay reflected the standard we aspire to deliver for every guest."),
+        4: (f"{name},\n\nThank you for staying with us{area_note} and for taking the time to share your experience. "
+            f"We are pleased to note your positive feedback and are genuinely grateful for your kind words."),
+        3: (f"{name},\n\nThank you for sharing your candid feedback on your recent stay with us. "
+            f"We have read every word with care and wish to respond to each point directly and substantively."),
+        2: (f"{name},\n\nWe are genuinely sorry to learn of the experience you have described during your stay{area_note}"
+            f"{hospital_note}. Please be assured that this review has been reviewed by our management team in full, "
+            f"and we wish to address each concern directly — not with a generic response, but with specific action."),
+        1: (f"{name},\n\nWe have read your review as a management team and are deeply sorry for the experience you describe"
+            f"{hospital_note}. This is not the standard Lime Tree Hotels & Service Apartments holds itself to, "
+            f"and we wish to respond with complete transparency about what went wrong and what we have done about it."),
     }
     opening = openers.get(stars, openers[3])
 
-    # Body — pick segments based on topics and sentiment
+    # ── Body segments — capped at 3 for focus, Oberoi-style direct attribution ─
     body_parts = []
-    use_neg = (stars <= 3 or sent == "negative")
-    for t_info in topics[:4]:                        # cap at 4 topics to keep reply focused
-        key = t_info["key"]
-        seg = _NEG_SEGMENT.get(key, "") if use_neg else _POS_SEGMENT.get(key, "")
+    dept_used  = []
+    for t_info in topics[:3]:
+        key  = t_info["key"]
+        dept = _DEPT.get(key, "our team")
+        seg  = _NEG_SEGMENT.get(key, "") if use_neg else _POS_SEGMENT.get(key, "")
         if seg:
             body_parts.append(seg)
+            dept_used.append(dept)
 
-    # Context paragraph
+    # ── Context paragraph ─────────────────────────────────────────────────────
     ctx_para = _CONTEXT_PARA.get(context, "")
     if ctx_para:
         body_parts.append(ctx_para)
 
-    # Fallback if nothing detected
+    # ── Fallback ──────────────────────────────────────────────────────────────
     if not body_parts:
         if stars >= 4:
-            body_parts.append("We invest enormously in ensuring our serviced apartments in Gurgaon deliver genuine home comfort — the kitchen, the laundry, the 24/7 support — and knowing a guest truly felt that is exactly the confirmation we work for.")
+            body_parts.append(
+                "We invest continually in ensuring every Lime Tree serviced apartment delivers the full experience of a well-run home — a fully equipped kitchen, in-room laundry, high-speed internet, 24/7 caretaker availability, and spaces designed for long stays. Knowing that a guest truly experienced this standard is the confirmation we work toward every day."
+            )
         else:
-            body_parts.append("I have reviewed the details of your stay personally. The issues you have raised have been acted upon immediately and directly — not passed to a team, not logged and forgotten.")
+            body_parts.append(
+                "We have reviewed the details of your stay at the management level. The concerns you have raised have been acted upon immediately and directly by the team responsible — not noted for later, not passed to a third party. Please be assured that we treat every piece of guest feedback as a direct instruction to improve."
+            )
 
-    # Closing (SEO-aware for positive, ownership-focused for negative)
-    closing = _SEO_CLOSINGS.get(stars, _SEO_CLOSINGS[3])
+    # ── Closing and signature — formal, Taj / ITC style ──────────────────────
+    closing   = _SEO_CLOSINGS.get(stars, _SEO_CLOSINGS[3])
+    depts_str = ""
+    if dept_used and use_neg:
+        depts_str = f"\n\nYour feedback has been shared directly with {', '.join(set(dept_used))} for immediate attention and follow-through."
 
-    signature = "With regards,\nManagement\nLime Tree Hotels & Service Apartments\n+91 74 7900 0111 | limetreehotels.com"
+    signature = (
+        "Warm regards,\n"
+        "The Management Team\n"
+        "Lime Tree Hotels & Service Apartments\n"
+        "Gurgaon | Delhi | Noida | Greater Noida | Vrindavan | Goa\n"
+        "+91 74 7900 0111  |  limetreehotels.com  |  reservation@limetreehotels.com"
+    )
 
-    full_reply = f"{opening}\n\n" + "\n\n".join(body_parts) + f"\n\n{closing}\n\n{signature}"
+    full_reply = (
+        f"{opening}\n\n"
+        + "\n\n".join(body_parts)
+        + depts_str
+        + f"\n\n{closing}\n\n{signature}"
+    )
 
-    # Keywords embedded (for display)
-    kws_used = []
     reply_lower = full_reply.lower()
-    for kw, *_ in TOP_KEYWORDS:
-        if any(word in reply_lower for word in kw.split()[:3]):
-            kws_used.append(kw)
-    return full_reply, kws_used[:5]
+    kws_used    = [kw for kw, *_ in TOP_KEYWORDS if any(w in reply_lower for w in kw.split()[:3])]
+    return full_reply, kws_used[:6]
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Keyword value table
