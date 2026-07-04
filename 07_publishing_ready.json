@@ -1,0 +1,305 @@
+{
+  "metadata": {
+    "generated": "2026-05-30",
+    "brand": "Lime Tree Hotels & Service Apartments Private Limited",
+    "website": "https://www.limetreehotels.com",
+    "cms": "Wix Blog",
+    "automation_stack": ["Make.com / n8n", "Blotato", "Google Sheets", "RSS Feed"],
+    "verified_against": "https://www.limetreehotels.com/ (fetched 2026-05-30)"
+  },
+
+  "article_1": {
+    "status": "ready_to_publish",
+    "priority": 10,
+    "publish_week": 1,
+
+    "seo": {
+      "meta_title": "Hotels Near Medanta Hospital Gurgaon – Best Stays 2026",
+      "meta_title_chars": 58,
+      "meta_description": "Looking for hotels near Medanta Hospital Gurgaon? Find patient-friendly serviced apartments with kitchen, laundry & long-stay rates. Book direct at Lime Tree Hotels.",
+      "meta_description_chars": 165,
+      "url_slug": "/hotels-near-medanta-hospital-gurgaon/",
+      "canonical_url": "https://www.limetreehotels.com/hotels-near-medanta-hospital-gurgaon/",
+      "focus_keyword": "hotels near Medanta hospital Gurgaon",
+      "lsi_keywords": [
+        "serviced apartments near Medanta",
+        "accommodation near Medanta Medicity",
+        "long stay Gurgaon hospital",
+        "patient family hotel Gurgaon",
+        "Medanta hospital accommodation"
+      ],
+      "schema_types": ["Article", "FAQPage", "LocalBusiness", "BreadcrumbList"],
+      "estimated_word_count": 1900,
+      "target_word_count": "1800-2500"
+    },
+
+    "content": {
+      "h1": "Hotels Near Medanta Hospital Gurgaon: Best Stays for Patients & Families (2026)",
+      "quick_answer_snippet": "Lime Tree Hotel Near Medanta–The Medicity in Gurgaon's Sector 38 is among the closest serviced apartment options to Medanta hospital, offering 1BHK rooms, a fully equipped kitchen, laundry, complimentary Wi-Fi, and 24/7 front desk. Direct booking: +91 74 7900 0111.",
+      "h2_sections": [
+        "Why Accommodation Near Medanta Hospital Matters",
+        "Lime Tree Hotel Near Medanta–The Medicity, Gurgaon",
+        "Other Lime Tree Properties Within Reach",
+        "What to Look for in a Medical Stay Hotel Near Medanta",
+        "Medanta Hospital: Key Facts for Planning Your Stay",
+        "Comparison Table: Serviced Apartment vs. Standard Hotel Near Medanta",
+        "Frequently Asked Questions",
+        "Getting to Medanta from Gurgaon's Main Hubs",
+        "Book Your Stay Near Medanta Hospital — Direct & Best Rate Guaranteed"
+      ],
+      "faq_count": 8,
+      "internal_links": [
+        {
+          "anchor_text": "Hotels Near Medanta–The Medicity",
+          "url": "https://www.limetreehotels.com/medanta-the-medicity-gurugram/"
+        },
+        {
+          "anchor_text": "Serviced Apartments Gurgaon",
+          "url": "https://www.limetreehotels.com/serviced-apartments.html"
+        },
+        {
+          "anchor_text": "Lime Tree Luxury Studio",
+          "url": "https://www.limetreehotels.com/lime-tree-luxury-studio-service-apartment-gurgaon/"
+        },
+        {
+          "anchor_text": "3BHK Serviced Apartment Gurgaon",
+          "url": "https://www.limetreehotels.com/3bhk-serviced-apartment-in-gurgaon/"
+        }
+      ],
+      "cta_placements": [
+        {"position": "after_h1", "type": "phone_cta", "text": "Call or WhatsApp: +91 74 7900 0111"},
+        {"position": "after_section_2", "type": "booking_link", "text": "Book direct at limetreehotels.com"},
+        {"position": "end_of_article", "type": "full_cta_block", "text": "Best Price Guaranteed on direct booking"}
+      ]
+    },
+
+    "social_media": {
+      "instagram": {
+        "version_a": {
+          "tone": "emotional_family",
+          "hook": "When someone you love is at Medanta Hospital, the last thing you should stress about is where to sleep tonight.",
+          "hashtags": ["#MedantaHospital", "#GurgaonHotels", "#ServicedApartmentsGurgaon", "#MedicalTourismIndia", "#LimeTreeHotels"],
+          "cta": "Link in bio to book directly"
+        },
+        "version_b": {
+          "tone": "practical_direct",
+          "hook": "Staying near Medanta Hospital Gurgaon? Here's what you actually need:",
+          "hashtags": ["#MedantaHospital", "#HotelsNearMedantaGurgaon", "#LimeTreeHotels", "#ServicedApartment"],
+          "cta": "Save this post — you might need it."
+        }
+      },
+      "facebook": {
+        "version_a": {
+          "tone": "story_format",
+          "hook": "Visiting a family member at Medanta Hospital, Gurgaon? We know how stressful it can be.",
+          "hashtags": ["#LimeTreeHotels", "#HotelsNearMedanta", "#GurugramHotels"],
+          "cta": "Share with anyone who might be planning a stay near Medanta."
+        },
+        "version_b": {
+          "tone": "comparison_factual",
+          "hook": "Standard hotel room or Lime Tree serviced apartment? Honest comparison:",
+          "hashtags": ["#LimeTreeHotels", "#MedantaHospital", "#ServicedApartment"],
+          "cta": "Book direct for best price."
+        }
+      },
+      "linkedin": {
+        "version_a": {
+          "tone": "professional_b2b",
+          "hook": "If your employees travel to Gurgaon for medical treatment — or if you manage corporate travel — this matters.",
+          "hashtags": ["#CorporateTravel", "#ServicedApartments", "#Gurgaon", "#MedicalTourism", "#LimeTreeHotels"],
+          "cta": "Happy to share our corporate rate card. Drop a comment or DM."
+        }
+      }
+    },
+
+    "visual_content": {
+      "featured_image": {
+        "concept": "Warm serviced apartment interior — kitchen visible, natural daylight, living area prominent",
+        "text_overlay": "Hotels Near Medanta Hospital, Gurgaon",
+        "dimensions": "1200x628px",
+        "source_requirement": "Real Lime Tree property photos only. Request from property manager."
+      },
+      "in_article_image_1": {
+        "placement": "near_comparison_table",
+        "concept": "Split image: cramped hotel room vs spacious Lime Tree apartment",
+        "caption": "Serviced apartment vs. standard hotel room: the choice is obvious for long stays."
+      },
+      "in_article_image_2": {
+        "placement": "near_faq_section",
+        "concept": "Map-style graphic with Medanta–The Medicity location marker and surrounding area",
+        "note": "Use generic hospital/map graphic. Do not use Medanta branded imagery without permission."
+      },
+      "instagram_carousel": {
+        "slides": [
+          {"slide": 1, "type": "hook", "text": "Staying near Medanta Hospital Gurgaon? Read this before you book."},
+          {"slide": 2, "type": "problem", "text": "Most hotels near hospitals are expensive, cramped, and not built for long stays."},
+          {"slide": 3, "type": "solution", "text": "Lime Tree Serviced Apartments: Kitchen ✅ | Laundry ✅ | 1–3 BHK ✅ | 24/7 Support ✅ | Weekly Rates ✅"},
+          {"slide": 4, "type": "location", "text": "Minutes from Medanta–The Medicity, Sector 38, Gurgaon."},
+          {"slide": 5, "type": "family", "text": "1 room isn't enough for 4 people and a 2-week stay. We have 2BHK & 3BHK options."},
+          {"slide": 6, "type": "cta", "text": "Best rates when you call or WhatsApp us directly. +91 74 7900 0111"}
+        ]
+      }
+    },
+
+    "gbp_post": {
+      "heading": "Staying Near Medanta Hospital? We've Got You.",
+      "body": "Looking for accommodation near Medanta–The Medicity in Gurgaon? Lime Tree Hotels offers serviced apartments with full kitchen, laundry, 1BHK to 3BHK for families. 24/7 caretaker. Weekly & monthly rates. Best price — book directly.",
+      "cta_button": "Book Now",
+      "cta_link": "https://www.limetreehotels.com/medanta-the-medicity-gurugram/",
+      "phone": "+91 74 7900 0111"
+    },
+
+    "rss_automation": {
+      "trigger": "new_rss_item_from_blog",
+      "social_schedule": [
+        {"platform": "instagram", "version": "A", "delay_hours": 0},
+        {"platform": "facebook", "version": "A", "delay_hours": 1},
+        {"platform": "linkedin", "version": "A", "delay_hours": 24},
+        {"platform": "instagram", "version": "B", "delay_hours": 120},
+        {"platform": "facebook", "version": "B", "delay_hours": 168}
+      ],
+      "gbp_post_delay_hours": 2,
+      "notification": "email_on_completion"
+    },
+
+    "schema_json_ld": {
+      "faq_schema": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which is the closest hotel to Medanta Hospital in Gurgaon?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lime Tree Hotel Near Medanta–The Medicity, located in Sector 38, Gurugram, is among the closest serviced apartment options to Medanta hospital. It includes a fully equipped kitchen, laundry, 1BHK configurations, and 24/7 front desk support. Contact: +91 74 7900 0111."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do hotels near Medanta offer kitchen facilities?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Lime Tree Hotels serviced apartments near Medanta include fully equipped kitchens with cooking facilities, refrigerator, microwave, and utensils — ideal for patients on specific diets and families managing extended medical stays economically."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are there long-stay rates for hotels near Medanta Hospital Gurgaon?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Lime Tree Hotels offers discounted weekly and monthly rates. Contact +91 74 7900 0111 or reservation@limetreehotels.com for current rates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are there serviced apartments near Medanta with kitchen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Lime Tree Hotels' properties near Medanta–The Medicity include fully equipped kitchens, allowing guests to cook during their stay."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a hotel near Medanta suitable for multiple family members?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Lime Tree Hotels offers 1BHK, 2BHK, and 3BHK serviced apartment configurations for families of 2–8+ people."
+            }
+          }
+        ]
+      },
+      "local_business_schema": {
+        "@context": "https://schema.org",
+        "@type": "LodgingBusiness",
+        "name": "Lime Tree Hotels & Service Apartments",
+        "url": "https://www.limetreehotels.com",
+        "telephone": "+91-74-7900-0111",
+        "email": "reservation@limetreehotels.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Plot A-583, Near Huda City Centre, Sector 43",
+          "addressLocality": "Gurugram",
+          "addressRegion": "Haryana",
+          "postalCode": "122002",
+          "addressCountry": "IN"
+        }
+      }
+    },
+
+    "google_sheets_row": {
+      "article_id": "LT-001",
+      "title": "Hotels Near Medanta Hospital Gurgaon: Best Stays for Patients & Families (2026)",
+      "primary_keyword": "hotels near Medanta hospital Gurgaon",
+      "status": "ready_to_publish",
+      "priority": 10,
+      "publish_week": 1,
+      "author": "Lime Tree Hotels Editorial Team",
+      "wix_category": "Gurgaon Hotels",
+      "wix_tags": ["Medanta Hospital", "Gurgaon Hotels", "Serviced Apartments", "Medical Tourism", "Long Stay"],
+      "internal_links_count": 4,
+      "faq_count": 8,
+      "social_versions": "IG-A, IG-B, FB-A, FB-B, LI-A",
+      "gbp_post": "yes",
+      "schema_types": "Article, FAQPage, LocalBusiness",
+      "notes": "Highest priority. Medical tourism + local SEO. Verified all facts against limetreehotels.com"
+    }
+  },
+
+  "content_calendar_summary": {
+    "total_articles": 50,
+    "tier_1_articles": 10,
+    "tier_2_articles": 15,
+    "tier_3_articles": 20,
+    "tier_4_geo_articles": 5,
+    "publish_cadence": "2 articles per week",
+    "completion_timeline_weeks": 25,
+    "primary_clusters": [
+      "Medical Tourism / Hospital Proximity",
+      "Corporate Housing / Business Travel",
+      "Local SEO / Micro-Location",
+      "Exhibition / Event-Driven",
+      "GEO / AI Search Optimization"
+    ]
+  },
+
+  "local_seo_summary": {
+    "gbp_post_cadence": "2 per week per active listing",
+    "gbp_post_templates_ready": 8,
+    "citation_platforms": 19,
+    "landing_pages_to_create": 12,
+    "review_response_templates": 3,
+    "nap_standard": {
+      "name": "Lime Tree Hotels & Service Apartments Private Limited",
+      "address": "Plot A-583, Near Huda City Centre, Sector 43, Gurugram, Haryana 122002",
+      "phone": "+91 74 7900 0111",
+      "website": "https://www.limetreehotels.com/"
+    }
+  },
+
+  "geo_summary": {
+    "target_ai_engines": ["ChatGPT", "Gemini", "Claude", "Perplexity", "Google AI Overviews"],
+    "ai_query_targets": 20,
+    "content_rules": 6,
+    "reusable_geo_blocks": 4,
+    "schema_templates": 2,
+    "measurement_plan": "weekly manual testing + Google Alerts brand monitoring"
+  },
+
+  "business_data_verified": {
+    "source": "https://www.limetreehotels.com/",
+    "verified_date": "2026-05-30",
+    "properties_confirmed": "10+ Gurgaon, 4 Greater Noida, 2 Delhi, 1 Noida, 1 Vrindavan, 1 Goa",
+    "total_rooms": "500+",
+    "years_in_operation": 12,
+    "phone": "+91 74 7900 0111",
+    "email": "reservation@limetreehotels.com",
+    "amenities_verified": [
+      "24/7 front desk", "fully equipped kitchen", "laundry/washing machine",
+      "complimentary Wi-Fi", "airport shuttle", "car parking", "air conditioning",
+      "HD LED flat-screen", "early check-in/late check-out (subject to availability)",
+      "non-smoking rooms", "complimentary breakfast", "24/7 power backup",
+      "wheelchair accessibility", "women traveler provisions"
+    ]
+  }
+}

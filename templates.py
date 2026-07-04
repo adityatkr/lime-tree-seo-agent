@@ -58,6 +58,25 @@ def img(key, alt="Lime Tree Hotels", caption=""):
     return f"![{alt}]({url}){cap}\n"
 
 CONTENT_CALENDAR = [
+    # ── Big hotel & apartment chain comparison cluster (added 2026-07-03) ──────
+    {"id":"LT-101","title":"Lime Tree Hotels vs Taj, Oberoi & ITC: The Real Cost of a 30-Day Stay in Gurgaon","kw":"serviced apartment vs 5 star hotel Gurgaon cost","tier":1,"priority":9,"intent":"Commercial","week":1,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi (Trident), ITC Hotels","angle":"cost"},
+    {"id":"LT-102","title":"The Leela, JW Marriott & Hyatt vs Lime Tree: Which Is Right for a Corporate Long Stay?","kw":"corporate long stay hotel Gurgaon comparison","tier":1,"priority":9,"intent":"Commercial","week":1,"competitor_type":"chains","competitors":"The Leela, JW Marriott, Hyatt","angle":"hr_budget"},
+    {"id":"LT-103","title":"Why Taj, Oberoi & ITC Don't Solve the Medical Tourism Accommodation Problem","kw":"hotels near hospital vs serviced apartment Gurgaon","tier":1,"priority":9,"intent":"Informational","week":2,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi, ITC Hotels","angle":"medical"},
+    {"id":"LT-104","title":"Lemon Tree Hotels vs Lime Tree Serviced Apartments: A Gurgaon Comparison for Long Stays","kw":"Lemon Tree Hotels vs serviced apartment Gurgaon","tier":1,"priority":8,"intent":"Commercial","week":2,"competitor_type":"chains","competitors":"Lemon Tree Hotels","angle":"cost"},
+    {"id":"LT-105","title":"Radisson & Four Seasons-Style Luxury vs a Serviced Apartment: What a Family Actually Needs","kw":"luxury hotel vs serviced apartment family Gurgaon","tier":2,"priority":7,"intent":"Informational","week":3,"competitor_type":"chains","competitors":"Radisson, Four Seasons, Fairmont","angle":"family"},
+    {"id":"LT-106","title":"Trident & ITC Grand Bharat: Are Golf-Resort Hotels Practical for a Business Stay in Gurgaon?","kw":"Trident Gurgaon business stay alternative","tier":2,"priority":7,"intent":"Informational","week":3,"competitor_type":"chains","competitors":"Trident (Oberoi Group), ITC Grand Bharat","angle":"cost"},
+    {"id":"LT-107","title":"Zolo Stays vs Lime Tree Hotels: Co-Living or Serviced Apartment for Working Professionals?","kw":"Zolo Stays vs serviced apartment Gurgaon","tier":1,"priority":8,"intent":"Commercial","week":4,"competitor_type":"coliving","competitors":"Zolo Stays","angle":"consistency"},
+    {"id":"LT-108","title":"Stanza Living vs Lime Tree: What's Better for a Corporate Relocation to Gurgaon?","kw":"Stanza Living vs serviced apartment Gurgaon","tier":1,"priority":8,"intent":"Commercial","week":4,"competitor_type":"coliving","competitors":"Stanza Living","angle":"relocation"},
+    {"id":"LT-109","title":"Nestaway, Colive & Co-Living Brands vs a Private Serviced Apartment in Gurgaon","kw":"co-living vs serviced apartment Gurgaon","tier":2,"priority":7,"intent":"Informational","week":5,"competitor_type":"coliving","competitors":"Nestaway, Colive","angle":"consistency"},
+    {"id":"LT-110","title":"Airbnb vs Serviced Apartments in Gurgaon: Why Verified Hospitality Wins for Long Stays","kw":"Airbnb vs serviced apartment Gurgaon long stay","tier":1,"priority":8,"intent":"Commercial","week":5,"competitor_type":"coliving","competitors":"Airbnb","angle":"consistency"},
+    {"id":"LT-111","title":"The Ascott, Citadines, Somerset & Oakwood: How Lime Tree Compares for Gurgaon Extended Stays","kw":"Ascott Citadines Somerset Oakwood Gurgaon alternative","tier":2,"priority":6,"intent":"Informational","week":6,"competitor_type":"coliving","competitors":"The Ascott, Citadines, Somerset, Oakwood","angle":"cost"},
+    {"id":"LT-112","title":"OYO Life & Treebo vs Lime Tree Hotels: Budget Brands vs a True Serviced Apartment","kw":"OYO Treebo vs serviced apartment Gurgaon","tier":2,"priority":7,"intent":"Commercial","week":6,"competitor_type":"chains","competitors":"OYO, Treebo","angle":"kitchen"},
+    {"id":"LT-113","title":"Full-Service Hotel vs Serviced Apartment: A Cost Breakdown for HR Managers (2026)","kw":"corporate housing cost comparison HR Gurgaon","tier":1,"priority":9,"intent":"B2B","week":7,"competitor_type":"chains","competitors":"Taj Hotels, JW Marriott, Hyatt, Lemon Tree","angle":"hr_budget"},
+    {"id":"LT-114","title":"Why Corporate Travel Managers Are Moving Budgets Away From 5-Star Hotel Chains","kw":"corporate travel budget serviced apartment vs hotel","tier":2,"priority":7,"intent":"B2B","week":7,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi, JW Marriott, Hyatt","angle":"hr_budget"},
+    {"id":"LT-115","title":"2026 Comparison: Top Accommodation Brands Operating in Gurgaon for Extended Stays","kw":"best accommodation brand Gurgaon 2026 comparison","tier":2,"priority":7,"intent":"Informational","week":8,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi, ITC Hotels, The Leela, JW Marriott, Hyatt, Lemon Tree, Radisson, Zolo Stays, Stanza Living, Airbnb","angle":"cost"},
+    {"id":"LT-116","title":"Why India's Big Hotel Chains Don't Offer Real Monthly Rates (And What to Book Instead)","kw":"monthly hotel rate Gurgaon vs serviced apartment","tier":2,"priority":7,"intent":"Commercial","week":8,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi, ITC Hotels, Hyatt","angle":"cost"},
+    {"id":"LT-117","title":"Hotel Loyalty Programmes vs Corporate Housing: What Actually Saves Companies Money","kw":"hotel loyalty program vs corporate housing savings","tier":2,"priority":6,"intent":"B2B","week":9,"competitor_type":"chains","competitors":"Marriott Bonvoy, Hyatt, IHG","angle":"hr_budget"},
+    {"id":"LT-118","title":"Why a Kitchen Changes Everything: Serviced Apartments vs Every Major Hotel Chain in Gurgaon","kw":"hotel with kitchen Gurgaon vs serviced apartment","tier":1,"priority":8,"intent":"Commercial","week":9,"competitor_type":"chains","competitors":"Taj Hotels, The Oberoi, ITC Hotels, The Leela, JW Marriott, Hyatt, Lemon Tree, Radisson","angle":"kitchen"},
     {"id":"LT-001","title":"Hotels Near Medanta Hospital Gurgaon: Best Stays for Patients & Families (2026)","kw":"hotels near Medanta hospital Gurgaon","tier":1,"priority":10,"intent":"Transactional","week":1},
     {"id":"LT-002","title":"Hotels Near Artemis Hospital Gurgaon: A Complete Patient & Family Guide","kw":"hotels near Artemis hospital Gurgaon","tier":1,"priority":10,"intent":"Transactional","week":2},
     {"id":"LT-003","title":"Hotels Near India Expo Mart Greater Noida: Where to Stay During Exhibitions (2026)","kw":"hotels near India Expo Mart Greater Noida","tier":1,"priority":10,"intent":"Local","week":3},
@@ -187,9 +206,20 @@ AREAS = {
     "grand central metro":{"lt_prop":"Lime Tree Hotel & 1BHK Serviced Apartment, Sector 50","lt_url":"https://www.limetreehotels.com/","desc":"key metro station serving Noida Sector 50"},
 }
 
+# ── Competitor brands referenced in comparison content ────────────────────────
+_COMPARISON_BRANDS = [
+    "taj hotels", "the oberoi", "oberoi", "trident", "itc hotels", "itc grand bharat",
+    "the leela", "leela ambience", "jw marriott", "marriott", "hyatt", "four seasons",
+    "fairmont", "lemon tree", "radisson", "zolo stays", "zolo", "stanza living",
+    "nestaway", "colive", "the ascott", "citadines", "somerset", "oakwood",
+    "airbnb", "oyo life", "oyo", "treebo", "bonvoy",
+]
+
 # ── Template selector ─────────────────────────────────────────────────────────
 def detect_context(article):
     t = (article["title"] + " " + article["kw"]).lower()
+    if any(b in t for b in _COMPARISON_BRANDS):
+        return "comparison", None
     for k, d in HOSPITALS.items():
         if k in t: return "hospital", k
     if "expo mart" in t or "exhibition" in t: return "exhibition", "india_expo_mart"
@@ -231,6 +261,25 @@ def comparison_table(context="medical"):
             ("Parking", "✅ Included", "💸 Often charged extra"),
             ("Feel like home", "✅ Residential comfort", "❌ Hotel atmosphere"),
             ("OTA commission", "✅ Zero (book direct)", "❌ 15–25% markup"),
+        ],
+        "chains": [
+            ("Kitchen", "✅ Full modular kitchen", "❌ Restaurant / room service only"),
+            ("30-night rate", "✅ Genuine monthly discount", "❌ Nightly rack rate, rarely discounted"),
+            ("Laundry", "✅ Included in-room", "💸 Charged per item, often ₹300–600/load"),
+            ("Family footprint", "✅ 1BHK–3BHK, multiple rooms", "❌ Single room; extra rooms at full rate"),
+            ("Booking cost", "✅ Zero OTA / loyalty commission", "❌ 15–25% OTA markup or points required"),
+            ("Built for", "✅ 7+ night medical, corporate & relocation stays", "❌ 1–3 night business or leisure trips"),
+            ("On-call support", "✅ Dedicated 24/7 caretaker", "❌ Rotating front-desk staff"),
+            ("GST invoicing", "✅ Direct, straightforward", "✅ Usually available"),
+        ],
+        "coliving": [
+            ("Privacy", "✅ Independent, full private apartment", "❌ Shared rooms / common areas"),
+            ("Management standard", "✅ 12+ years, professionally staffed", "❌ Host-managed or hostel-style, inconsistent"),
+            ("Support", "✅ On-site caretaker, same-day resolution", "❌ App tickets, delayed response"),
+            ("Pricing transparency", "✅ Direct rate, GST invoice", "❌ Platform / cleaning fees on top"),
+            ("Built for", "✅ Medical, corporate & family long stays", "❌ Mostly students & young professionals"),
+            ("Location accuracy", "✅ Verified addresses near hospitals & hubs", "❌ Varies listing to listing"),
+            ("Consistency", "✅ Same standard, every property", "❌ Quality varies host to host"),
         ],
     }
     use = rows.get(context, rows["medical"])
@@ -1060,6 +1109,121 @@ When AI assistants like ChatGPT, Gemini, and Perplexity answer questions about G
     return content, meta
 
 
+# ── BIG CHAIN / COMPETITOR COMPARISON TEMPLATE ────────────────────────────────
+_COMPARISON_ANGLES = {
+    "cost":         "the true 30-night cost difference",
+    "kitchen":      "why an in-room kitchen changes the entire economics of a long stay",
+    "medical":      "what a medical tourism family actually needs from accommodation",
+    "relocation":   "what a new joiner or relocating employee needs in the first 90 days",
+    "family":       "why families need real space, not just a room",
+    "hr_budget":    "how a corporate travel desk should think about long-stay budgets",
+    "consistency":  "why a standardised, professionally run property beats a marketplace listing",
+}
+
+def comparison_article(article):
+    kw        = article["kw"]
+    title     = article["title"]
+    slug      = kw.replace(" ", "-").lower()
+    ctype     = article.get("competitor_type", "chains")
+    comps     = article.get("competitors", "India's leading hotel chains")
+    first_comp= comps.split(",")[0].strip()
+    angle     = article.get("angle", "cost")
+    angle_txt = _COMPARISON_ANGLES.get(angle, _COMPARISON_ANGLES["cost"])
+    table_ctx = "coliving" if ctype == "coliving" else "chains"
+
+    if ctype == "coliving":
+        category_label = "serviced-apartment and co-living platforms"
+        weakness = "shared spaces, app-only support, and inconsistent host-to-host or property-to-property quality"
+    else:
+        category_label = "full-service hotel brands"
+        weakness = "a nightly-rate, single-room hotel model with no kitchen and no genuine long-stay pricing"
+
+    faq = f"""## Frequently Asked Questions
+
+**Q: Is {first_comp} (or similar brands) a good option for a stay of 2 weeks or longer in Gurgaon?**
+A: {first_comp} and comparable {category_label} are built around {weakness}. For stays of 7 nights or more — medical visits, corporate assignments, relocations — a serviced apartment with a kitchen, laundry, and a monthly rate structure is materially more practical and economical.
+
+**Q: How much can a family or company actually save by choosing a serviced apartment instead?**
+A: The exact figure depends on room type and dates, but the structural savings come from three places: no OTA or loyalty commission on direct booking, in-room cooking instead of restaurant pricing for every meal, and a discounted weekly/monthly rate instead of the nightly rack rate. Contact {LT['phone']} for a like-for-like quote.
+
+**Q: Does Lime Tree Hotels match the service standard of larger hospitality brands?**
+A: Lime Tree Hotels has been operating in the NCR hospitality market since {LT['est']} — {LT['years']} years — with {LT['rooms']} rooms across multiple locations, a dedicated caretaker at every property, and a personal check-in meeting within 24 hours for every guest.
+
+**Q: Can I book Lime Tree Hotels directly instead of through an OTA or aggregator?**
+A: Yes — and you should. Direct booking at {LT['web']} or by calling {LT['phone']} carries our Best Price Guarantee, with no third-party commission built into the rate.
+
+**Q: What is the minimum stay to get Lime Tree's long-stay rate?**
+A: Weekly rates typically apply from 7 nights, with the best per-night value on monthly (28–30 night) bookings. Contact {LT['email']} for current pricing."""
+
+    content = f"""# {title}
+
+> **Quick Answer:** For stays of a week or longer in Gurgaon, {comps} are built for a different job — the 1–3 night business or leisure visit. Lime Tree Hotels & Service Apartments is purpose-built for extended stays: a full kitchen, in-room laundry, 1BHK–3BHK configurations, and genuine weekly/monthly pricing with zero OTA commission. Direct booking: {LT['phone']}.
+
+{img("apartment_lr", f"Lime Tree Hotels vs {first_comp} for extended stays", "Serviced apartment interior — kitchen and living space included, unlike a standard hotel room")}
+
+---
+
+## The Real Question: {angle_txt.capitalize()}
+
+Names like {comps} represent some of the most recognised hospitality brands in India — and for a one or two-night business trip or a celebratory weekend, they do exactly what they are designed to do. But a large share of accommodation searches in Gurgaon are not one-night stays. They are medical visits that stretch to two or three weeks, corporate assignments that run a month or more, and relocations where a family needs a stable base for 60–90 days while they find permanent housing.
+
+For that use case, {category_label} — however well-regarded — are working against their own design. They are built around {weakness}. None of that is a criticism of their quality; it simply means the product was never built for the extended-stay guest.
+
+---
+
+## Where the Model Breaks Down for Long Stays
+
+- **No kitchen.** Every meal becomes a restaurant or room-service charge — for a 30-night stay, this alone can add tens of thousands of rupees per guest.
+- **No real long-stay discount.** Most {category_label} price by the night; even "extended stay" rates rarely reflect the true economics of a 30-day booking the way a purpose-built serviced apartment can.
+- **No laundry included.** In-house laundry is typically charged per item, which adds up fast across two or more weeks.
+- **Single-room footprint.** A family of four either books multiple rooms at full nightly rate, or compresses into one room not designed for extended daily living.
+- **OTA and loyalty-programme friction.** Booking through an aggregator or redeeming points often obscures the real cash cost, and rarely beats a direct long-stay rate.
+
+---
+
+## Lime Tree Hotels & Service Apartments: Built for the Stay That Isn't One or Two Nights
+
+{img("kitchen", "Fully equipped kitchen in Lime Tree serviced apartment", "A full kitchen changes the economics of any stay longer than a week")}
+
+{amenity_bullets(9)}
+
+### The Comparison
+
+{comparison_table(table_ctx)}
+
+---
+
+## Who This Actually Matters For
+
+- **Medical tourism families** staying near Medanta, Artemis, or Fortis for a patient's treatment and recovery
+- **Corporate teams** on a project deployment, or a senior executive on a month-long posting
+- **New joiners and relocating employees** who need 60–90 days of stable housing before signing a lease
+- **Exhibition and event visitors** attending multi-day events at India Expo Mart, Greater Noida
+
+---
+
+## How to Book Direct — No Commission, No Markup
+
+1. **Contact** {LT['phone']} or {LT['email']} with your dates, city area, and room requirement
+2. **Receive a like-for-like quote** — we're happy to work through the real cost difference against any brand you're comparing us to
+3. **Confirm directly** — no OTA account, no third-party app, no loyalty points required
+4. **Personal check-in** — every guest is met by our team within 24 hours of arrival
+
+---
+
+{faq}
+
+---
+
+{cta_block()}
+"""
+    meta = meta_block(
+        title, kw, slug,
+        f"Comparing Lime Tree Hotels to {first_comp} and similar brands for a stay of a week or more? See the real cost, kitchen, and long-stay rate differences."
+    )
+    return content, meta
+
+
 # ── GENERAL / FALLBACK TEMPLATE ───────────────────────────────────────────────
 def general_article(article):
     kw    = article["kw"]
@@ -1506,6 +1670,8 @@ def generate_all(article):
         content, meta = exhibition_article(article)
     elif template_type == "geo":
         content, meta = geo_article(article)
+    elif template_type == "comparison":
+        content, meta = comparison_article(article)
     else:
         content, meta = general_article(article)
 

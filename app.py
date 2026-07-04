@@ -8,7 +8,8 @@ st.set_page_config(page_title="Lime Tree SEO Agent", page_icon="🌿", layout="w
 
 ARCHIVE_DIR = Path("archive")
 ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-START_DATE  = datetime(2026, 6, 16)          # plan start
+START_DATE  = datetime(2026, 7, 3)           # plan start
+TOTAL_ARTICLES = len(CONTENT_CALENDAR)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS
@@ -147,6 +148,21 @@ GBP_SCHEDULE = [
     ("Goa Villa",          "Need a complete escape from Delhi NCR? Lime Tree's 4BHK private pool villa in Anjuna, Goa is available for group bookings. Contact reservation@limetreehotels.com for details."),
     ("12 Years Strong",    "12 years. 500+ rooms. 6 cities. Lime Tree Hotels has been Gurgaon's trusted name in serviced apartments since 2013. Find your ideal stay at limetreehotels.com."),
     ("Noida Stay",         "Visiting Noida? Lime Tree Hotel & 1BHK Serviced Apartment in Sector 50 (near Grand Central Metro) offers all the comfort of our Gurgaon properties — kitchen, laundry, 24/7 support."),
+    # ── Big chain / competitor comparison posts (added 2026-07-03) ─────────────
+    ("Vs 5-Star Chains",   "Paying Taj/Oberoi/ITC nightly rates for a 2-week stay in Gurgaon? A Lime Tree serviced apartment gives you a full kitchen, laundry and a genuine monthly rate — for less. Call +91 74 7900 0111."),
+    ("Vs Marriott/Hyatt",  "JW Marriott and Hyatt are built for a 1-night business trip — not a month-long project. Lime Tree's corporate housing gives your team a kitchen, laundry and a real monthly rate. reservation@limetreehotels.com."),
+    ("Vs Lemon Tree",      "Comparing Lemon Tree Hotels for a long Gurgaon stay? Ask about our monthly rate first — full kitchen and laundry included, not just a room. limetreehotels.com."),
+    ("Vs Co-Living",       "Zolo, Stanza Living, Nestaway — great for shared living. If you need your own private apartment with a dedicated caretaker, Lime Tree Hotels is built for exactly that. Call +91 74 7900 0111."),
+    ("Vs Airbnb",          "Before you book an Airbnb for a 3-week Gurgaon stay, compare it to Lime Tree: verified property, 24/7 on-site support, GST invoicing, and a direct-booking best rate. limetreehotels.com."),
+    ("No Loyalty Lock-In", "No Marriott Bonvoy points needed. No Hyatt status required. Just a genuinely better rate for stays of a week or more — book direct at limetreehotels.com."),
+    ("Kitchen Advantage",  "Every major hotel chain in Gurgaon charges restaurant prices for every meal. Every Lime Tree serviced apartment includes a full kitchen. Do the math over 30 nights. Call +91 74 7900 0111."),
+    ("HR Budget Tip",      "HR managers: before renewing a corporate rate with a 5-star chain, ask Lime Tree Hotels for a like-for-like monthly quote. reservation@limetreehotels.com — most teams save significantly."),
+    ("Vs OYO/Treebo",      "OYO and Treebo are fine for one night. For a 2-week medical stay near Medanta or Artemis, you need a kitchen and a caretaker — that's Lime Tree Hotels. Call +91 74 7900 0111."),
+    ("Vs Golf-Resort Hotels","Golf-resort hotels are built for leisure, not a Monday-to-Friday business stay. Lime Tree's corporate housing near Cyber City and Golf Course Road is built for exactly that. limetreehotels.com."),
+    ("Direct Booking Math","OTA commission is 15–25%. Loyalty programs need points you may not have. Direct booking at limetreehotels.com is simply the lowest real price — every time."),
+    ("Family vs Luxury Room","One luxury hotel room vs a 2BHK Lime Tree apartment for a family of four — same nights, very different cost and space. Call +91 74 7900 0111 to compare."),
+    ("Relocating Employees","New joiners relocating to Gurgaon: a serviced apartment gets you settled faster than a hotel and cheaper than 90 days at a 5-star chain. reservation@limetreehotels.com."),
+    ("12 Years vs New Platforms","Zolo, Nestaway, Airbnb — all newer to Gurgaon than Lime Tree Hotels. 12+ years, 500+ rooms, one consistent standard. Book at limetreehotels.com."),
 ]
 
 SOCIAL_SCHEDULE = [
@@ -168,6 +184,31 @@ SOCIAL_SCHEDULE = [
     ("facebook",  "12 Years. 500+ Rooms. Here's What Makes Lime Tree Hotels Different from Every OTA Listing", "Brand"),
     ("instagram", "Before You Book on MakeMyTrip — Read This About Gurgaon Serviced Apartments 📱", "Direct Booking"),
     ("linkedin",  "The HUDA City Centre Metro Corridor: Gurgaon's Most Underrated Corporate Stay Zone", "Local SEO"),
+    # ── Big chain / competitor comparison posts (added 2026-07-03) ─────────────
+    ("instagram", "Taj, Oberoi, ITC — Beautiful for a Weekend. Here's What They Don't Offer for a Month-Long Stay 🏨", "Comparison"),
+    ("linkedin",  "The Real Cost Difference: 5-Star Hotel Chain vs Serviced Apartment for a 30-Day Corporate Stay", "B2B"),
+    ("facebook",  "JW Marriott, Hyatt, Radisson — Great Hotels, Wrong Product for a 2-Week Medical Stay Near Medanta", "Comparison"),
+    ("instagram", "Lemon Tree vs Lime Tree: Same City, Very Different Long-Stay Value 🌿", "Comparison"),
+    ("linkedin",  "Why HR Teams Are Rethinking Corporate Housing Budgets Beyond 5-Star Chains", "B2B"),
+    ("instagram", "Zolo Stays, Stanza Living, Nestaway — Co-Living Is Great. Here's When You Need Your Own Apartment Instead 🔑", "Comparison"),
+    ("facebook",  "Before You Book an Airbnb for 3 Weeks in Gurgaon, Read This", "Comparison"),
+    ("instagram", "Trident, ITC Grand Bharat — Golf-Resort Luxury Isn't Built for a Monday Business Trip ⛳", "Comparison"),
+    ("linkedin",  "OTA Commission + Loyalty Points ≠ The Real Best Price. Here's the Direct-Booking Math", "B2B"),
+    ("instagram", "A Kitchen Changes Everything: Why No Major Hotel Chain in Gurgaon Can Match This 🍳", "Comparison"),
+    ("facebook",  "Four Seasons-Style Luxury vs a Family Serviced Apartment: What Actually Matters for 4 People, 2 Weeks", "Comparison"),
+    ("instagram", "OYO, Treebo — Perfect for One Night. Not for a Medical Stay Near Artemis Hospital 🏥", "Comparison"),
+    ("linkedin",  "The Ascott, Citadines, Oakwood — Global Serviced Apartment Brands vs a Local 12-Year Standard in Gurgaon", "B2B"),
+    ("instagram", "Relocating to Gurgaon? Here's Why 90 Days at a 5-Star Chain Doesn't Make Financial Sense 📦", "Relocation"),
+    ("facebook",  "Marriott Bonvoy, Hyatt, IHG Points — Or a Genuinely Lower Direct Rate? We Did the Math", "Comparison"),
+    ("instagram", "Same Nights, Same City — Hotel Room vs 2BHK Serviced Apartment for a Family of Four 👨‍👩‍👧‍👦", "Family"),
+    ("linkedin",  "2026 Accommodation Comparison: Where Serviced Apartments Beat Full-Service Hotel Chains in Gurgaon", "B2B"),
+    ("instagram", "Verified 12+ Years vs a New Listing: Why Hospitality Track Record Matters for Long Stays ✅", "Trust"),
+    ("facebook",  "The Oberoi, ITC, Leela — World-Class Hospitality, Wrong Tool for a 3-Week Corporate Deployment", "Comparison"),
+    ("instagram", "No Points. No Platform Fees. No Markup. Just a Direct Rate That's Actually Lower 💸", "Direct Booking"),
+    ("linkedin",  "Why Corporate Travel Desks Should Request a Serviced Apartment Quote Before Renewing a Hotel Contract", "B2B"),
+    ("instagram", "Co-Living Was Built for Students. Corporate Long Stays Need Something Else Entirely 🏢", "Comparison"),
+    ("facebook",  "Everything a Taj or Oberoi Stay Doesn't Include for a 30-Night Booking (And What Lime Tree Does)", "Comparison"),
+    ("instagram", "Big Chain Name, Bigger Bill: The Hidden Cost of Booking Luxury for an Extended Stay 💰", "Comparison"),
 ]
 
 def build_60day_plan():
@@ -234,7 +275,6 @@ It means the world to our entire team at Lime Tree Hotels to know your stay was 
 
 We hope to welcome you back very soon. Remember, you always get our Best Price Guarantee when booking directly at limetreehotels.com or by calling +91 74 7900 0111.
 
-Warm regards,
 Team Lime Tree Hotels""",
         },
         {
@@ -246,7 +286,6 @@ Supporting families staying near Medanta Hospital, Artemis Hospital, and Fortis 
 
 For your next medical visit to Gurgaon, please contact us directly at +91 74 7900 0111 — we will take care of all the arrangements personally.
 
-With warmest regards,
 Team Lime Tree Hotels""",
         },
         {
@@ -258,7 +297,6 @@ We are delighted to know that Lime Tree Hotels delivered on what you needed for 
 
 Should your team need accommodation in Gurgaon again — near Cyber City, Golf Course Road, or DLF Phase 5 — please reach out at reservation@limetreehotels.com. We would love to arrange a corporate rate for your company.
 
-Best regards,
 Team Lime Tree Hotels""",
         },
         {
@@ -270,7 +308,6 @@ Family stays hold a very special place for us at Lime Tree Hotels. Our 2BHK and 
 
 We hope the whole family had a wonderful time and we look forward to welcoming you back. Book directly at limetreehotels.com for our guaranteed best rates — no OTA markup.
 
-Warmly,
 Team Lime Tree Hotels""",
         },
         {
@@ -282,7 +319,6 @@ Long stays are what we do best at Lime Tree Hotels. Knowing you chose our furnis
 
 If you return to Gurgaon — whether for work, relocation or another long project — please contact us directly at +91 74 7900 0111. We can arrange a customised monthly rate for you. We would be honoured to host you again.
 
-Best wishes,
 Team Lime Tree Hotels""",
         },
     ],
@@ -296,7 +332,6 @@ We are glad the overall experience was positive. We have noted your feedback reg
 
 We hope to earn that fifth star on your next visit! Book directly at limetreehotels.com or call +91 74 7900 0111 for our best rates.
 
-Best regards,
 Team Lime Tree Hotels""",
         },
         {
@@ -308,7 +343,6 @@ We are grateful our accommodation near Medanta Hospital provided comfort during 
 
 We wish you and your family continued good health. If you need to stay near any of Gurgaon's hospitals again, please reach out to us directly at +91 74 7900 0111 so we can personally ensure everything is right.
 
-With care,
 Team Lime Tree Hotels""",
         },
         {
@@ -320,7 +354,6 @@ It is great to hear the stay was largely comfortable. We have taken note of your
 
 For your next Gurgaon assignment, please get in touch directly at reservation@limetreehotels.com — we can discuss corporate housing rates and ensure everything is arranged to your exact specifications before check-in.
 
-Best,
 Team Lime Tree Hotels""",
         },
     ],
@@ -334,7 +367,6 @@ We are sorry your stay did not fully meet your expectations — this is not the 
 
 We would genuinely love the opportunity to make it right. Please contact us at reservation@limetreehotels.com before your next visit — we will make sure everything is arranged personally this time.
 
-Sincerely,
 Management, Lime Tree Hotels""",
         },
         {
@@ -346,7 +378,6 @@ We sincerely apologise that the issue you mentioned affected your stay. That is 
 
 We have already escalated this internally. If you are visiting Gurgaon again, please reach out to us at +91 74 7900 0111 before your stay — we will personally ensure everything is in order.
 
-Regards,
 Management, Lime Tree Hotels""",
         },
         {
@@ -358,7 +389,6 @@ We understand your concern about value. We want to be transparent: our very best
 
 Please reach out to us at reservation@limetreehotels.com before your next stay. We can offer a customised rate that we believe will change your perception entirely.
 
-Regards,
 Management, Lime Tree Hotels""",
         },
     ],
@@ -372,7 +402,6 @@ This is not who Lime Tree Hotels is. We have been providing serviced apartments 
 
 Please contact our management directly at reservation@limetreehotels.com or +91 74 7900 0111. We will investigate this thoroughly and follow up with you personally.
 
-Our sincerest apologies,
 Management, Lime Tree Hotels""",
         },
         {
@@ -384,7 +413,6 @@ At Lime Tree Hotels, every guest at our serviced apartments in Gurgaon deserves 
 
 Please reach out directly to our management team at reservation@limetreehotels.com. We would like to understand the full situation and take corrective action. Your experience will not be ignored.
 
-With our sincere apologies,
 Management, Lime Tree Hotels""",
         },
     ],
@@ -398,7 +426,6 @@ There is no excuse for the experience you have described. Lime Tree Hotels has b
 
 Please contact our management team directly — not a front desk, but management — at reservation@limetreehotels.com or +91 74 7900 0111. We will investigate immediately and respond to you personally.
 
-With our deepest apologies,
 Management, Lime Tree Hotels""",
         },
         {
@@ -410,7 +437,6 @@ Whether you came to us for a medical stay near a Gurgaon hospital, a corporate p
 
 Please email reservation@limetreehotels.com directly — mark it for Management attention. We will respond within 24 hours, investigate fully, and take whatever corrective action is needed. This matters to us.
 
-With our sincerest apologies,
 Management, Lime Tree Hotels""",
         },
     ],
@@ -581,10 +607,13 @@ def _cap_reply(opening: str, body_parts: list, closing: str, signature: str, max
 
     trimmed_close = sentence_trim(closing, close_budget)
 
+    parts = [opening]
     if body_parts:
-        trimmed_body = sentence_trim(body_parts[0], max(body_budget, 22))
-        return f"{opening}\n\n{trimmed_body}\n\n{trimmed_close}\n\n{signature}"
-    return f"{opening}\n\n{trimmed_close}\n\n{signature}"
+        parts.append(sentence_trim(body_parts[0], max(body_budget, 22)))
+    parts.append(trimmed_close)
+    if signature:
+        parts.append(signature)
+    return "\n\n".join(parts)
 
 # ── Positive variants — 3 per topic (Taj/Oberoi/ITC/Leela/Marriott/Hyatt/Four Seasons) ─
 _POS_VARIANTS = {
@@ -977,29 +1006,29 @@ def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, contex
 
     opener_sets = {
         5: [
-            f"{name},\n\nThank you sincerely for choosing Lime Tree Hotels & Service Apartments{area_note}{hospital_note}, and for taking the time to share such a generous and detailed review. We are truly delighted to learn that your stay reflected the standard we aspire to deliver for every guest.",
-            f"{name},\n\nOn behalf of the entire team at Lime Tree Hotels & Service Apartments{area_note}, thank you so much for this wonderful review{hospital_note}. It is always deeply encouraging to receive such positive feedback, and we are thrilled that your experience lived up to your expectations.",
-            f"{name},\n\nIt was our genuine privilege to host you{area_note}{hospital_note}. Thank you for taking the time to share this heartening review — your appreciation means a great deal to every member of our team, and we are delighted that your stay was a positive one in every way.",
+            f"{name},\n\nThank you so much for staying with us{area_note}{hospital_note} and for taking the time to write such a lovely review. It genuinely made our day.",
+            f"{name},\n\nThis is exactly the kind of feedback our team lives for — thank you{hospital_note}! We're so glad the stay{area_note} lived up to what you needed.",
+            f"{name},\n\nWe loved reading this. Thank you for the kind words and for choosing to stay with us{area_note}{hospital_note} — it really does mean a lot to the whole team.",
         ],
         4: [
-            f"{name},\n\nThank you for staying with us{area_note} and for taking the time to share your feedback. We are very pleased to note the positive aspects of your experience and genuinely grateful for your kind words.",
-            f"{name},\n\nThank you for choosing Lime Tree Hotels & Service Apartments{area_note} and for providing us with your valuable feedback. We are glad your stay was largely positive and appreciate you recognising what our team worked hard to deliver.",
-            f"{name},\n\nWe are grateful for your review and for the trust you placed in us during your stay{area_note}. Your feedback — both the positive and the constructive — is very valuable to us, and we are pleased to know the overall experience was a good one.",
+            f"{name},\n\nThank you for staying with us{area_note} and for taking the time to write this. We're really glad most of it went well.",
+            f"{name},\n\nThanks so much for the honest feedback{hospital_note} — we're glad the stay was a good one overall, and we've taken note of what you mentioned.",
+            f"{name},\n\nWe appreciate you sharing this. It's good to hear the stay{area_note} was largely positive, and your feedback — the good and the constructive — genuinely helps us.",
         ],
         3: [
-            f"{name},\n\nThank you for sharing your candid feedback on your recent stay with us. We have read every word with care and wish to respond to each point directly and substantively — because your experience deserves more than a standard acknowledgement.",
-            f"{name},\n\nWe appreciate you taking the time to provide us with your honest feedback. Your comments are extremely valuable to us and we wish to address each concern directly — not generically — so that we can demonstrate the standard Lime Tree Hotels & Service Apartments is committed to.",
-            f"{name},\n\nThank you for your honest assessment of your stay. We have reviewed your feedback with the relevant team members and wish to address each point specifically — because we believe every guest deserves a genuine and substantive response, not a templated reply.",
+            f"{name},\n\nThank you for the honest feedback on your stay. We'd rather respond properly to what you actually experienced than send a generic thank-you, so here goes.",
+            f"{name},\n\nWe appreciate you taking the time to write this — it's useful to us, and we want to address what you raised directly rather than brush past it.",
+            f"{name},\n\nThanks for sharing this. We've read it carefully and want to respond to the specific points, not just acknowledge them.",
         ],
         2: [
-            f"{name},\n\nWe sincerely apologise for the experience you have described during your stay{area_note}{hospital_note}. Please be assured that this review has been reviewed by our management team in full, and we wish to address each concern directly and specifically.",
-            f"{name},\n\nWe extend our sincerest apologies for the experience you have encountered{hospital_note}, and we wish to be completely direct in our response. Your feedback has been escalated to the management team and reviewed in detail — we are committed to addressing every concern with specific action, not assurances alone.",
-            f"{name},\n\nPlease accept our sincerest apologies for the experience you have described{hospital_note}. We have reviewed your feedback at the management level, take full responsibility for the shortfalls you encountered, and wish to address each point specifically and transparently.",
+            f"{name},\n\nWe're sorry to hear this — a stay{area_note}{hospital_note} shouldn't leave you feeling this way, and we want to address what went wrong directly.",
+            f"{name},\n\nThank you for being upfront about this. We've looked into what you've described{hospital_note} and want to respond properly, not just with an apology.",
+            f"{name},\n\nWe're genuinely sorry your stay didn't go the way it should have{hospital_note}. We've reviewed this with the team and want to be specific about what we're doing about it.",
         ],
         1: [
-            f"{name},\n\nWe have read your review as a management team and sincerely apologise for the experience you describe{hospital_note}. This is not the standard Lime Tree Hotels & Service Apartments holds itself to, and we wish to respond with complete transparency about what went wrong and what we have done about it.",
-            f"{name},\n\nWe deeply regret the experience you have described{hospital_note}, and we wish to assure you that your review has been reviewed at the highest level of our management team — not passed to a department. We take full responsibility and wish to address every concern you have raised with direct and specific action.",
-            f"{name},\n\nOn behalf of the entire team at Lime Tree Hotels & Service Apartments, we sincerely and unreservedly apologise for the experience you have described{hospital_note}. Your review has been reviewed by our management team in full, and we wish to respond substantively — not defensively — to every concern raised.",
+            f"{name},\n\nWe're sorry — this is not the stay we want anyone to have{hospital_note}, and we take it seriously. Here's what we've looked into and what we're doing about it.",
+            f"{name},\n\nThis one's on us. We've read this at the management level{hospital_note}, and rather than a standard apology, we want to be straightforward about what went wrong.",
+            f"{name},\n\nWe're genuinely sorry to read this{hospital_note}. We don't want to just apologise and move on — we've looked into it and want to tell you what we found and what's changing.",
         ],
     }
     opening = _pick(opener_sets.get(stars, opener_sets[3]), seed)
@@ -1034,13 +1063,10 @@ def generate_chatbot_reply(review_text: str, stars: int, guest_name: str, contex
     closing_list = _CLOSING_VARIANTS.get(stars, _CLOSING_VARIANTS[3])
     closing      = _pick(closing_list, seed + "closing")
 
-    signature = (
-        "Warm regards,\n"
-        "The Management Team\n"
-        "Lime Tree Hotels & Service Apartments\n"
-        "Gurgaon  |  Delhi  |  Noida  |  Greater Noida  |  Vrindavan  |  Goa\n"
-        "+91 74 7900 0111  ·  limetreehotels.com  ·  reservation@limetreehotels.com"
-    )
+    # No formal signature block — Google already attributes this as "Response from the
+    # Owner", so a letterhead with brand name, city list and phone/email reads as an ad,
+    # not a reply from a person.
+    signature = ""
 
     # ── Assemble within 100-150 word limit, then sanitize apology language ───
     full_reply = _sanitize(_cap_reply(opening, body_parts, closing, signature, max_words=125))
@@ -1086,8 +1112,8 @@ with st.sidebar:
     archive_count = len(list(ARCHIVE_DIR.glob("*.json")))
     st.markdown(f"""<hr><div style="padding:.4rem;font-size:.74rem;line-height:1.9;color:var(--muted);">
     <div>🟢 <b style="color:var(--text)">Engine:</b> Ready — No API needed</div>
-    <div>✍️ <b style="color:var(--text)">Generated:</b> {archive_count}/50 articles</div>
-    <div>📅 <b style="color:var(--text)">Plan starts:</b> 16 Jun 2026</div>
+    <div>✍️ <b style="color:var(--text)">Generated:</b> {archive_count}/{TOTAL_ARTICLES} articles</div>
+    <div>📅 <b style="color:var(--text)">Plan starts:</b> {START_DATE.strftime('%d %b %Y')}</div>
     <div>🏨 <b style="color:var(--text)">Properties:</b> 500+ rooms · 6 cities</div>
     </div>""", unsafe_allow_html=True)
 
@@ -1109,7 +1135,7 @@ if page == "🤖  AI Agent":
         auto_mode = st.toggle("🎯 Auto Mode — highest priority first", value=True)
         if auto_mode:
             if not remaining:
-                st.success("🎉 All 50 articles generated!")
+                st.success(f"🎉 All {TOTAL_ARTICLES} articles generated!")
                 st.stop()
             article = sorted(remaining, key=lambda x: -x["priority"])[0]
             st.markdown(f"""<div style="background:var(--card2);border:1px solid var(--ba);border-radius:9px;padding:.9rem 1.1rem;margin:.5rem 0 0;">
@@ -1193,12 +1219,13 @@ elif page == "📅  60-Day SEO Plan":
     archive  = load_archive()
     done_ids = {r.get("id") for r in archive}
 
+    start_date_str = START_DATE.strftime("%d %b %Y")
     end_date = (START_DATE + timedelta(days=59)).strftime("%d %b %Y")
     blogs_total  = sum(1 for d in plan for i in d["items"] if i["type"]=="blog")
     gbp_total    = sum(1 for d in plan for i in d["items"] if i["type"]=="gbp")
     social_total = sum(1 for d in plan for i in d["items"] if i["type"] in ["instagram","facebook","linkedin"])
 
-    st.markdown(f'<div class="page-hdr"><div class="badge">📅 60-Day Plan · 31 May – {end_date}</div><h1>60-Day SEO Content Plan</h1><p>Auto-scheduled blog posts, GBP updates, and social content — every item date-stamped and ready to execute.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="page-hdr"><div class="badge">📅 60-Day Plan · {start_date_str} – {end_date}</div><h1>60-Day SEO Content Plan</h1><p>Auto-scheduled blog posts, GBP updates, and social content — every item date-stamped and ready to execute.</p></div>', unsafe_allow_html=True)
 
     c1,c2,c3,c4,c5 = st.columns(5)
     for col,(val,lbl,sub,ico) in zip([c1,c2,c3,c4,c5],[
@@ -1465,13 +1492,13 @@ elif page == "📊  Dashboard":
     today_str= datetime.now().strftime("%Y-%m-%d")
     today_items = [i for d in plan if d["date"]==today_str for i in d["items"]]
 
-    st.markdown('<div class="page-hdr"><div class="badge">📊 Overview</div><h1>SEO Engine Dashboard</h1><p>Live progress across all 50 articles, the 60-day plan, and your content pipeline.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="page-hdr"><div class="badge">📊 Overview</div><h1>SEO Engine Dashboard</h1><p>Live progress across all {TOTAL_ARTICLES} articles, the 60-day plan, and your content pipeline.</p></div>', unsafe_allow_html=True)
 
     c1,c2,c3,c4,c5 = st.columns(5)
     for col,(val,lbl,sub,ico) in zip([c1,c2,c3,c4,c5],[
-        (len(archive),"Generated",f"of 50 articles","✍️"),
-        (50-len(archive),"Remaining","Articles to produce","📋"),
-        (f"{len(archive)/50*100:.0f}%","Complete","Pipeline progress","📈"),
+        (len(archive),"Generated",f"of {TOTAL_ARTICLES} articles","✍️"),
+        (TOTAL_ARTICLES-len(archive),"Remaining","Articles to produce","📋"),
+        (f"{len(archive)/TOTAL_ARTICLES*100:.0f}%","Complete","Pipeline progress","📈"),
         (len(today_items),"Today's Tasks","Blog/GBP/Social","📅"),
         (next_a["priority"] if next_a else "✓","Next Priority",next_a["id"] if next_a else "All done!","🎯"),
     ]):
@@ -1483,8 +1510,8 @@ elif page == "📊  Dashboard":
 
     with cl:
         st.markdown('<div class="sc"><h3>📈 Pipeline Progress</h3>', unsafe_allow_html=True)
-        st.progress(len(archive)/50)
-        st.caption(f"{len(archive)}/50 complete · {50-len(archive)} remaining")
+        st.progress(len(archive)/TOTAL_ARTICLES)
+        st.caption(f"{len(archive)}/{TOTAL_ARTICLES} complete · {TOTAL_ARTICLES-len(archive)} remaining")
         if next_a:
             st.markdown(f"""<div style="background:var(--card2);border:1px solid var(--ba);border-radius:9px;padding:1rem 1.25rem;margin-top:.75rem;">
             <div style="font-size:.7rem;color:var(--accent);font-weight:700;margin-bottom:.3rem;">NEXT UP IN AUTO MODE</div>
@@ -1509,6 +1536,7 @@ elif page == "📊  Dashboard":
     with cr:
         st.markdown('<div class="sc"><h3>🎯 Cluster Progress</h3>', unsafe_allow_html=True)
         for name, ids, color in [
+            ("Big Chain Comparison", ["LT-101","LT-102","LT-103","LT-104","LT-105","LT-106","LT-107","LT-108","LT-109","LT-110","LT-111","LT-112","LT-113","LT-114","LT-115","LT-116","LT-117","LT-118"],"#E8C547"),
             ("Medical Tourism",  ["LT-001","LT-002","LT-007","LT-011","LT-028","LT-036","LT-046","LT-049"],"#6BBF4E"),
             ("Corporate / B2B",  ["LT-004","LT-005","LT-008","LT-014","LT-019","LT-033","LT-042"],"#89D162"),
             ("Local SEO",        ["LT-009","LT-010","LT-013","LT-015","LT-017","LT-021","LT-024","LT-030","LT-031","LT-032","LT-034","LT-044"],"#D4AF37"),
@@ -1554,7 +1582,7 @@ elif page == "📋  Calendar":
     archive  = load_archive()
     done_ids = {r.get("id") for r in archive}
 
-    st.markdown('<div class="page-hdr"><div class="badge">📋 Content Calendar</div><h1>50-Article Publishing Plan</h1><p>All 50 articles filterable by tier, intent, and status. Green border = already generated.</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="page-hdr"><div class="badge">📋 Content Calendar</div><h1>{TOTAL_ARTICLES}-Article Publishing Plan</h1><p>All {TOTAL_ARTICLES} articles filterable by tier, intent, and status. Green border = already generated.</p></div>', unsafe_allow_html=True)
 
     c1,c2,c3 = st.columns(3)
     with c1: tier_f   = st.selectbox("Tier", ["All","Tier 1","Tier 2","Tier 3","Tier 4"])
@@ -1567,7 +1595,7 @@ elif page == "📋  Calendar":
     if status_f == "Generated": cal = [a for a in cal if a["id"] in done_ids]
     if status_f == "Pending":   cal = [a for a in cal if a["id"] not in done_ids]
 
-    st.caption(f"Showing {len(cal)} articles · {len(done_ids)} generated · {50-len(done_ids)} pending")
+    st.caption(f"Showing {len(cal)} articles · {len(done_ids)} generated · {TOTAL_ARTICLES-len(done_ids)} pending")
 
     ic = {"Transactional":"tg","Commercial":"tb","B2B":"tp","Local":"tgo","Informational":"tgr","GEO":"tp"}
     for a in cal:
@@ -1605,7 +1633,7 @@ elif page == "📁  Archive":
     else:
         total_words = sum(r.get("word_count",0) for r in archive)
         c1,c2,c3 = st.columns(3)
-        with c1: st.markdown(f'<div class="mc"><div class="lbl">Articles</div><div class="val">{len(archive)}</div><div class="sub">of 50 planned</div></div>', unsafe_allow_html=True)
+        with c1: st.markdown(f'<div class="mc"><div class="lbl">Articles</div><div class="val">{len(archive)}</div><div class="sub">of {TOTAL_ARTICLES} planned</div></div>', unsafe_allow_html=True)
         with c2: st.markdown(f'<div class="mc"><div class="lbl">Total Words</div><div class="val">{total_words:,}</div><div class="sub">Across all articles</div></div>', unsafe_allow_html=True)
         with c3:
             avg_imgs = sum(r.get("article","").count("unsplash") for r in archive) // max(len(archive),1)
